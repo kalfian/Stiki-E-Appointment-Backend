@@ -2,6 +2,10 @@
 
 use Illuminate\Support\Facades\Route;
 
+use App\Http\Controllers\Admin\{
+    AuthController as AdminAuthController
+};
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -14,5 +18,9 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('includes.auth');
+    return redirect()->route('auth.index');
+});
+
+Route::prefix('/auth')->group(function () {
+    Route::get('/', [AdminAuthController::class, 'login'])->name('auth.index');
 });
