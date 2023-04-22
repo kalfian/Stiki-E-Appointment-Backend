@@ -3,7 +3,8 @@
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\Admin\{
-    AuthController as AdminAuthController
+    AuthController as AdminAuthController,
+    DashboardController as AdminDashboardController
 };
 
 /*
@@ -24,4 +25,8 @@ Route::get('/', function () {
 Route::prefix('/auth')->group(function () {
     Route::get('/', [AdminAuthController::class, 'login'])->name('auth.login');
     Route::post('/', [AdminAuthController::class, 'signIn'])->name('auth.login.signin');
+});
+
+Route::prefix('/dashboard')->middleware('auth')->group(function () {
+    Route::get('/', [AdminDashboardController::class, 'index'])->name('admin.dashboard');
 });

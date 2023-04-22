@@ -20,7 +20,7 @@ class AuthController extends Controller
             return $user->hasRole('admin');
         })) {
             $request->session()->regenerate();
-            return redirect()->intended('dashboard');
+            return redirect()->route('admin.dashboard');
         }
 
         return redirect()->back()->withInput()->withError('Invalid credentials');
