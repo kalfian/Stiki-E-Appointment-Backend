@@ -18,9 +18,10 @@ use App\Http\Controllers\Admin\{
 */
 
 Route::get('/', function () {
-    return redirect()->route('auth.index');
+    return redirect()->route('auth.login');
 });
 
 Route::prefix('/auth')->group(function () {
-    Route::get('/', [AdminAuthController::class, 'login'])->name('auth.index');
+    Route::get('/', [AdminAuthController::class, 'login'])->name('auth.login');
+    Route::post('/', [AdminAuthController::class, 'signIn'])->name('auth.login.signin');
 });
