@@ -7,29 +7,29 @@
             <a href="index.html">{{ config('app.name_short') }}</a>
         </div>
         <ul class="sidebar-menu">
-            <li class="active">
+            <li class="@if(Request::route()->getName() == 'admin.dashboard') active @endif">
                 <a class="nav-link" href="{{ route('admin.dashboard') }}">
                     <i class="fas fa-gauge"></i>
                     <span>Dashboard</span>
                 </a>
             </li>
 
-            <li class="">
-                <a class="nav-link" href="{{ route('admin.dashboard') }}">
+            <li class="@if(Request::route()->getName() == 'admin.lectures.index') active @endif">
+                <a class="nav-link" href="{{ route('admin.lectures.index') }}">
                     <i class="fas fa-person-chalkboard"></i>
                     <span>Master Lecture</span>
                 </a>
             </li>
 
-            <li class="">
-                <a class="nav-link" href="{{ route('admin.dashboard') }}">
+            <li class="@if(Request::route()->getName() == 'admin.students.index') active @endif">
+                <a class="nav-link" href="{{ route('admin.students.index') }}">
                     <i class="fas fa-users"></i>
                     <span>Master Student</span>
                 </a>
             </li>
 
-            <li class="">
-                <a class="nav-link" href="{{ route('admin.dashboard') }}">
+            <li class="@if(Request::route()->getName() == 'admin.activities.index') active @endif">
+                <a class="nav-link" href="{{ route('admin.activities.index') }}">
                     <i class="fas fa-star"></i>
                     <span>Master Activity</span>
                 </a>

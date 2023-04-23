@@ -4,7 +4,10 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\Admin\{
     AuthController as AdminAuthController,
-    DashboardController as AdminDashboardController
+    DashboardController as AdminDashboardController,
+    LectureController as AdminLectureController,
+    StudentController as AdminStudentController,
+    ActivityController as AdminActivityController,
 };
 
 /*
@@ -31,5 +34,17 @@ Route::prefix('/dashboard')->group(function () {
     Route::get('/auth/signout', [AdminAuthController::class, 'signOut'])->name('auth.signout');
 
     Route::get('/', [AdminDashboardController::class, 'index'])->name('admin.dashboard');
+
+    Route::group(['prefix' => '/lectures'], function () {
+        Route::get('/', [AdminLectureController::class, 'index'])->name('admin.lectures.index');
+    });
+
+    Route::group(['prefix' => '/students'], function () {
+        Route::get('/', [AdminStudentController::class, 'index'])->name('admin.students.index');
+    });
+
+    Route::group(['prefix' => '/activities'], function () {
+        Route::get('/', [AdminActivityController::class, 'index'])->name('admin.activities.index');
+    });
 
 });
