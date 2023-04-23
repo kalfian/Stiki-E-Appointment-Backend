@@ -28,5 +28,8 @@ Route::prefix('/auth')->group(function () {
 });
 
 Route::prefix('/dashboard')->group(function () {
+    Route::get('/auth/signout', [AdminAuthController::class, 'signOut'])->name('auth.signout');
+
     Route::get('/', [AdminDashboardController::class, 'index'])->name('admin.dashboard');
+
 });

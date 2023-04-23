@@ -25,4 +25,11 @@ class AuthController extends Controller
 
         return redirect()->back()->withInput()->withError('Invalid credentials');
     }
+
+    public function signOut(Request $request) {
+        Auth::logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+        return redirect()->route('auth.login');
+    }
 }
