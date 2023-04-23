@@ -27,6 +27,6 @@ Route::prefix('/auth')->group(function () {
     Route::post('/', [AdminAuthController::class, 'signIn'])->name('auth.login.signin');
 });
 
-Route::prefix('/dashboard')->middleware('auth')->group(function () {
+Route::prefix('/dashboard')->group(function () {
     Route::get('/', [AdminDashboardController::class, 'index'])->name('admin.dashboard');
 });
