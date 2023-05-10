@@ -37,6 +37,7 @@ Route::prefix('/dashboard')->middleware(['auth'])->group(function () {
 
     Route::group(['prefix' => '/lectures'], function () {
         Route::get('/', [AdminLectureController::class, 'index'])->name('admin.lectures.index');
+        Route::get('/data', [AdminLectureController::class, 'datatables'])->name('admin.lectures.datatables');
     });
 
     Route::group(['prefix' => '/students'], function () {

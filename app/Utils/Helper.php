@@ -18,3 +18,17 @@ if (!function_exists('female')) {
         return 1;
     }
 }
+
+if (!function_exists('role')) {
+    function role() {
+        $role = new App\Utils\Role();
+        return $role;
+    }
+}
+
+
+if (!function_exists('is_debug')) {
+    function is_debug() {
+        return config('app.debug') === true;
+    }
+}
