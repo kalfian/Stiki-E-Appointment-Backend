@@ -25,12 +25,12 @@ Route::get('/', function () {
     return redirect()->route('auth.login');
 });
 
-Route::prefix('/auth')->group(function () {
+Route::prefix('/auth')->middleware(['guest'])->group(function () {
     Route::get('/', [AdminAuthController::class, 'login'])->name('auth.login');
     Route::post('/', [AdminAuthController::class, 'signIn'])->name('auth.login.signin');
 });
 
-Route::prefix('/dashboard')->group(function () {
+Route::prefix('/dashboard')->middleware(['auth'])->group(function () {
     Route::get('/auth/signout', [AdminAuthController::class, 'signOut'])->name('auth.signout');
 
     Route::get('/', [AdminDashboardController::class, 'index'])->name('admin.dashboard');

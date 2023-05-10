@@ -17,7 +17,7 @@ class AuthController extends Controller
         $credentials = $request->only('email', 'password');
 
         if (Auth::attemptWhen($credentials, function ($user) {
-            return $user->hasRole('admin');
+            return $user->hasRole('admin') || $user->hasRole('super-admin');
         })) {
             $request->session()->regenerate();
             return redirect()->route('admin.dashboard');
