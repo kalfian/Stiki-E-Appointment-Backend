@@ -4,6 +4,7 @@
 
 @section('css')
 <link rel="stylesheet" href="{{ asset('assets/modules/datatables/media/css/jquery.dataTables.min.css') }}">
+<link rel="stylesheet" href="{{ asset('assets/modules/datatables/datatables-bootstrap4.min.css') }}">
 @endsection
 
 @section('script')
@@ -93,7 +94,7 @@
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
-                            <table class="table-bordered table-md table" id="table-lecture">
+                            <table class="dataTables_wrapper container-fluid dt-bootstrap4 no-footer" id="table-lecture">
                                 <thead>
                                     <tr>
                                         <th>ID</th>
