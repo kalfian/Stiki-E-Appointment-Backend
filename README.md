@@ -66,19 +66,35 @@ Superadmin
 - Core
   - [x] Admin Bootstrap
   - [x] Login Page
-- Student
+- Superadmin
+  - [ ] View Superadmin
+  - [ ] Create Superadmin
+  - [ ] Detail Superadmin
+  - [ ] View Student
   - [ ] Create Student
+  - [ ] View Detail Student
+  - [ ] Edit Student
+  - [ ] View Lecture
+  - [ ] Create Lecture
+  - [ ] View Detail Lecture
+  - [ ] Create Lecture
+  - [ ] Edit Lecture
+- Student
+  - [ ] View Student
+  - [ ] Create Student
+  - [ ] View Detail Student
   - [ ] Edit Student
   - [ ] Reset password student
-  - [ ] View Student
   - [ ] Import Student from CSV
 - Lecture
+  - [ ] View Lecture
+  - [ ] Create Lecture
+  - [ ] View Detail Lecture
   - [ ] Create Lecture
   - [ ] Edit Lecture
   - [ ] Reset password lecture
-  - [ ] View lecture
   - [ ] Import lecture from csv
-- Activity
+- Activity (Role: Admin)
   - [ ] Create Activity
   - [ ] Get Detail Activity
   - [ ] Edit Activity
