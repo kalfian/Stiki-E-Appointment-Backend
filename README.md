@@ -63,12 +63,30 @@ php artisan route:clear
 ## Task
 
 Superadmin
-- [ ]  Create base superadmin
-- [ ]  Crud master user student
-- [ ]  crud master user lecture
-- [ ]  Crud activity
-- [ ]  Api login user
-- [ ]  Api update fcm
+- Core
+  - [x] Admin Bootstrap
+  - [x] Login Page
+- Student
+  - [ ] Create Student
+  - [ ] Edit Student
+  - [ ] Reset password student
+  - [ ] View Student
+  - [ ] Import Student from CSV
+- Lecture
+  - [ ] Create Lecture
+  - [ ] Edit Lecture
+  - [ ] Reset password lecture
+  - [ ] View lecture
+  - [ ] Import lecture from csv
+- Activity
+  - [ ] Create Activity
+  - [ ] Get Detail Activity
+  - [ ] Edit Activity
+  - [ ] Delete Activity
+  - [ ] Notification Activity Student
+  - [ ] Notification Activity Lecture
+- Logbook
+  - [ ] Get Activity Logbook
 
 API
 - Core
@@ -77,14 +95,14 @@ API
 
 - Student
   - Activity
-    - [ ]  Get Activity
-    - [ ]  Get Detail Activity
-    - [ ]  Notification activity
+    - [ ] Get Activity
+    - [ ] Get Detail Activity
+    - [ ] Notification activity
   - Activity Appointment
-    - [ ]  Get Appointment
-    - [ ]  Get Detail Appointment
-    - [ ]  Create appointment
-    - [ ]  Notification appointment
+    - [ ] Get Appointment
+    - [ ] Get Detail Appointment
+    - [ ] Create appointment
+    - [ ] Notification appointment
   - Appointment Chat
     - [ ] Get Detail Chat
     - [ ] Publish Chat    
@@ -93,19 +111,19 @@ API
     - [ ] Create Logbook
   - Other
     - [ ] Get Profile
-    - [ ]  Get Notifications
-    - [ ]  Get Notification Detail
+    - [ ] Get Notifications
+    - [ ] Get Notification Detail
     
 - Lecture
   - Activity
-    - [ ]  Get Activity
-    - [ ]  Get Detail Activity
-    - [ ]  Notification activity
+    - [ ] Get Activity
+    - [ ] Get Detail Activity
+    - [ ] Notification activity
   - Activity Appointment
-    - [ ]  Get Appointment
-    - [ ]  Get Detail Appointment
-    - [ ]  Create appointment
-    - [ ]  Notification appointment
+    - [ ] Get Appointment
+    - [ ] Get Detail Appointment
+    - [ ] Create appointment
+    - [ ] Notification appointment
   - Appointment Chat
     - [ ] Get Detail Chat
     - [ ] Publish Chat    
@@ -114,5 +132,5 @@ API
     - [ ] Create Logbook
   - Other
     - [ ] Get Profile
-    - [ ]  Get Notifications
-    - [ ]  Get Notification Detail
+    - [ ] Get Notifications
+    - [ ] Get Notification Detail
