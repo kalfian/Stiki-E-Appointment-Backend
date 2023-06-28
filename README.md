@@ -1,10 +1,10 @@
-# Admin Backend
-Backend admin
+Stiki E-Appointment Backend
+==========
 
-## Presequete
-
--   Composer
--   PHP Version 8.1^
+### Requirement
+- PHP 8.0 or higher
+- MySQL 5.5 or higher
+- Laravel 9
 
 ## Installation
 
@@ -13,7 +13,7 @@ Backend admin
 
 ```bash
 composer install
-```
+``` 
 
 3. Create .env and edit the credential
 
@@ -21,16 +21,20 @@ composer install
 cp .env.example .env
 ```
 
-4. Create laravel key
+4. Link Storage
+```bash
+php artisan storage:link
+```
+
+or (if you use shared hosting)
+```bash
+ln -s storage-project-dir/storage/app/public public-dir/storage
+``` 
+
+5. Create laravel key
 
 ```bash
 php artisan key:generate
-```
-
-5. Create JWT Key
-
-```bash
-php artisan jwt:secret
 ```
 
 6. Dump Database
@@ -39,18 +43,29 @@ php artisan jwt:secret
 php artisan migrate
 ```
 
-7. Dump Dummy data
-
-```bash
-php artisan db:seed
+## Host on Shared Hosting
+1. Upload all file to root folder
+2. Copy public folder to public_html
+3. change index.php in public_html
+```php
+require __DIR__.'/../vendor/autoload.php';
+$app = require_once __DIR__.'/../bootstrap/app.php';
+```
+to
+```php
+require __DIR__.'/../{host-folder}/vendor/autoload.php';
+$app = require_once __DIR__.'/../{host-folder}/bootstrap/app.php';
 ```
 
-
-8. Start Server
-
-```bash
-php artisan serve
+## Patch
+1. Pull from master on this repositories
+2. Run migration to makesure all table already created
+``` bash
+php artisan migrate
 ```
+if there is alert about migrate in production just answer yes
+
+
 ## Clear cache
 ```bash
 php artisan config:clear
