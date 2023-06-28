@@ -45,7 +45,6 @@
 
                     <!-- Page Heading -->
                     @yield('content')
-
                 </div>
                 <!-- /.container-fluid -->
 
