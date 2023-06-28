@@ -1,81 +1,87 @@
+
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" name="viewport">
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
     <title>@yield('title') &mdash; {{ config('app.name') }}</title>
 
-    <!-- General CSS Files -->
-    <link rel="stylesheet" href="{{ asset('assets/modules/bootstrap/dist/css/bootstrap.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('assets/modules/fontawesome/css/all.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('assets/modules/fancybox/dist/jquery.fancybox.css') }}">
+    <!-- Custom fonts for this template-->
+    <link href="{{ asset('assets/vendor/fontawesome-free/css/all.min.css') }}" rel="stylesheet" type="text/css">
+    <link
+        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+        rel="stylesheet">
 
+    <!-- Custom styles for this template-->
+    <link href="{{ asset('assets/css/sb-admin-2.min.css') }}" rel="stylesheet">
     @yield('css')
-
-    <!-- Template CSS -->
-    <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
-    <link rel="stylesheet" href="{{ asset('assets/css/components.css') }}">
 </head>
 
-<body>
-    <div id="app">
-        <div class="main-wrapper">
-            <!-- Header -->
-            <div class="navbar-bg"></div>
-            @include('includes.nav')
+<body id="page-top">
 
-            <!-- Sidebar -->
-            @include('includes.sidebar')
+    <!-- Page Wrapper -->
+    <div id="wrapper">
 
-            <!-- Content -->
-            <div class="main-content">
-                @yield('content')
+        <!-- Sidebar -->
+        @include('includes.sidebar')
+        <!-- End of Sidebar -->
+
+        <!-- Content Wrapper -->
+        <div id="content-wrapper" class="d-flex flex-column">
+
+            <!-- Main Content -->
+            <div id="content">
+
+                <!-- Topbar -->
+                @include('includes.nav')
+                <!-- End of Topbar -->
+
+                <!-- Begin Page Content -->
+                <div class="container-fluid">
+
+                    <!-- Page Heading -->
+                    @yield('content')
+
+                </div>
+                <!-- /.container-fluid -->
+
             </div>
+            <!-- End of Main Content -->
 
             <!-- Footer -->
-            <footer class="main-footer">
-                <div class="footer-left">
-                    {{ env('FOOTER_COPY_RIGHT', 'Stiki E-Appointment') }}
-                </div>
-                <div class="footer-right">
-                    {{ env('APP_VERSION', '1.0.0') }}
+            <footer class="sticky-footer bg-white">
+                <div class="container my-auto">
+                    <div class="copyright text-center my-auto">
+                        <span>{{ env('FOOTER_COPY_RIGHT', 'Stiki E-Appointment') }}</span>
+                    </div>
                 </div>
             </footer>
+            <!-- End of Footer -->
+
         </div>
+        <!-- End of Content Wrapper -->
+
     </div>
+    <!-- End of Page Wrapper -->
 
-    <!-- General JS Scripts -->
-    <script src="{{ asset('assets/modules/jquery/dist/jquery.min.js') }}"></script>
-    <script src="{{ asset('assets/modules/popper.js/dist/umd/popper.js') }}"></script>
-    <script src="{{ asset('assets/modules/tooltip.js/dist/umd/tooltip.js') }}"></script>
-    <script src="{{ asset('assets/modules/bootstrap/dist/js/bootstrap.min.js') }}"></script>
-    <script src="{{ asset('assets/modules/jquery.nicescroll/dist/jquery.nicescroll.min.js') }}"></script>
-    <script src="{{ asset('assets/modules/moment/min/moment.min.js') }}"></script>
-    <script src="{{ asset('assets/modules/fancybox/dist/jquery.fancybox.min.js') }}"></script>
-    <script src="{{ asset('assets/modules/sweetalert/dist/sweetalert.min.js') }}"></script>
-    <script src="{{ asset('assets/js/stisla.js') }}"></script>
+    <!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded" href="#page-top">
+        <i class="fas fa-angle-up"></i>
+    </a>
+    <!-- Bootstrap core JavaScript-->
+    <script src="{{ asset('assets/vendor/jquery/jquery.min.js') }}"></script>
+    <script src="{{ asset('assets/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
 
+    <!-- Core plugin JavaScript-->
+    <script src="{{ asset('assets/vendor/jquery-easing/jquery.easing.min.js') }}"></script>
+
+    <!-- Custom scripts for all pages-->
+    <script src="{{ asset('assets/js/sb-admin-2.min.js') }}"></script>
     @yield('script')
-
-    <!-- Template JS File -->
-    <script src="{{ asset('assets/js/scripts.js') }}"></script>
-    <script src="{{ asset('assets/js/custom.js') }}"></script>
-    <script>
-        $("#logout-sidebar").click(function() {
-            swal({
-                title: "Are you sure?",
-                text: "You will be logged out from this session!",
-                icon: "warning",
-                buttons: true,
-                dangerMode: true,
-            }).then((willLogout) => {
-                if (willLogout) {
-                    window.location.href = "{{ route('auth.signout') }}";
-                }
-            });
-        });
-    </script>
 </body>
 
 </html>

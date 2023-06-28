@@ -1,54 +1,42 @@
-
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8">
-  <meta content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" name="viewport">
-  <title>@yield('title') &mdash; {{ config('app.name') }}</title>
 
-  <!-- General CSS Files -->
-  <link rel="stylesheet" href="{{ asset('assets/modules/bootstrap/dist/css/bootstrap.min.css') }}">
-  <link rel="stylesheet" href="{{ asset('assets/modules/fontawesome/css/all.min.css') }}">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
 
-  <!-- Template CSS -->
-  <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
-  <link rel="stylesheet" href="{{ asset('assets/css/components.css') }}">
-  @yield('css')
+    <title>@yield('title') &mdash; {{ config('app.name') }}</title>
+
+    <!-- Custom fonts for this template-->
+    <link href="{{ asset('assets/vendor/fontawesome-free/css/all.min.css') }}" rel="stylesheet" type="text/css">
+    <link
+        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+        rel="stylesheet">
+
+    <!-- Custom styles for this template-->
+    <link href="{{ asset("assets/css/sb-admin-2.min.css") }}" rel="stylesheet">
+    @yield('css')
 </head>
 
-<body>
-  <div id="app">
-    <section class="section">
-      <div class="container mt-5">
-        <div class="row">
-          <div class="col-12 col-sm-8 offset-sm-2 col-md-6 offset-md-3 col-lg-6 offset-lg-3 col-xl-4 offset-xl-4">
-            {{-- <div class="login-brand">
-              <img src="assets/img/stisla-fill.svg" alt="logo" width="100" class="shadow-light rounded-circle">
-            </div> --}}
+<body class="bg-gradient-primary">
+    <div class="container">
+        @yield('content')
+    </div>
 
-            @yield('content')
-          </div>
-        </div>
-      </div>
-    </section>
-  </div>
+    <!-- Bootstrap core JavaScript-->
+    <script src="{{ asset('assets/vendor/jquery/jquery.min.js') }}"></script>
+    <script src="{{ asset('assets/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
 
-  <!-- General JS Scripts -->
-  <script src="{{ asset('assets/modules/jquery/dist/jquery.min.js') }}"></script>
-  <script src="{{ asset('assets/modules/popper.js/dist/umd/popper.min.js') }}"></script>
-  <script src="{{ asset('assets/modules/tooltip.js/dist/umd/tooltip.js') }}"></script>
-  <script src="{{ asset('assets/modules/bootstrap/dist/js/bootstrap.min.js') }}"></script>
-  <script src="{{ asset('assets/modules/jquery.nicescroll/dist/jquery.nicescroll.min.js') }}"></script>
-  <script src="{{ asset('assets/modules/moment/min/moment.min.js') }}"></script>
-  <script src="{{ asset('assets/js/stisla.js') }}"></script>
+    <!-- Core plugin JavaScript-->
+    <script src="{{ asset('assets/vendor/jquery-easing/jquery.easing.min.js') }}"></script>
 
-  <!-- JS Libraies -->
-
-  <!-- Page Specific JS File -->
-
-  <!-- Template JS File -->
-  <script src="{{ asset('assets/js/scripts.js') }}"></script>
-  <script src="{{ asset('assets/js/custom.js') }}"></script>
-  @yield('script')
+    <!-- Custom scripts for all pages-->
+    <script src="{{ asset('assets/js/sb-admin-2.min.js') }}"></script>
+    @yield('script')
 </body>
+
 </html>
