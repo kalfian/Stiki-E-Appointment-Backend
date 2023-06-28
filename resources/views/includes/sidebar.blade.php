@@ -57,7 +57,7 @@
 
     <!-- Divider -->
     <div class="text-center ml-3 mr-3 mb-3 mt-5 d-md-inline">
-        <button class="btn btn-danger btn-block border-0">Logout</button>
+        <button class="btn btn-danger btn-block border-0"><i class="fas fa-sign-out-alt"></i> Logout</button>
     </div>
     <hr class="sidebar-divider d-none d-md-block">
 
