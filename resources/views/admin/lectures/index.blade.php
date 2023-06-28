@@ -3,12 +3,12 @@
 
 
 @section('css')
-<link rel="stylesheet" href="{{ asset('assets/modules/datatables/media/css/jquery.dataTables.min.css') }}">
-<link rel="stylesheet" href="{{ asset('assets/modules/datatables/datatables-bootstrap4.min.css') }}">
+<link rel="stylesheet" href="{{ asset('assets/vendor/datatables/dataTables.bootstrap4.min.css') }}">
 @endsection
 
 @section('script')
-<script src="{{ asset('assets/modules/datatables/media/js/jquery.dataTables.min.js') }}"></script>
+<script src="{{ asset('assets/vendor/datatables/jquery.dataTables.min.js') }}"></script>
+<script src="{{ asset('assets/vendor/datatables/dataTables.bootstrap4.min.js') }}"></script>
 <script>
     $('#table-lecture').DataTable({
         processing: true,
@@ -81,36 +81,38 @@
 @endsection
 
 @section('content')
-<section class="section">
-    <div class="section-header">
-        <h1>Master Lecture</h1>
+<div class="container-fluid">
+
+    <!-- Page Heading -->
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0 text-gray-800">Master Lecture</h1>
     </div>
-    <div class="section-body">
-        <div class="row">
-            <div class="col-md-12">
-                <div class="card">
-                    <div class="card-header">
-                        <h4>Advanced Table</h4>
-                    </div>
-                    <div class="card-body">
-                        <div class="table-responsive">
-                            <table class="dataTables_wrapper container-fluid dt-bootstrap4 no-footer" id="table-lecture">
-                                <thead>
-                                    <tr>
-                                        <th>ID</th>
-                                        <th>Lecture Name</th>
-                                        <th>Email</th>
-                                        <th>Gender</th>
-                                        <th>Status</th>
-                                        <th>Action</th>
-                                    </tr>
-                                </thead>
-                            </table>
-                        </div>
+
+    <!-- Content Row -->
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    <h4>List Lectures</h4>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-bordered" id="table-lecture" width="100%" cellspacing="0">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Lecture Name</th>
+                                    <th>Email</th>
+                                    <th>Gender</th>
+                                    <th>Status</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                        </table>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</section>
+</div>
 @endsection
