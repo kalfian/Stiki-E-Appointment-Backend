@@ -16,13 +16,13 @@ jobs:
         password: ${{ secrets.PASSWORD }}
         port: ${{ secrets.PORT }}
         script: |
-          echo "Enter active project directory ${{ secrets.PROJECT_DIR }}"
-          cd ${{ secrets.PROJECT_DIR }}
+          echo "Enter active project directory ${{ secrets.ROOT_PROJECT }}/${{ secrets.PROJECT_DIR }}"
+          cd ${{ secrets.ROOT_PROJECT }}/${{ secrets.PROJECT_DIR }}
           echo "Pull from master"
           git pull origin master
           composer install
           yes | cp -rf ./public/* ../${{ secrets.PROJECT_DIR_PUBLIC }}
           cd ../${{ secrets.PROJECT_DIR_PUBLIC }}
-          sed -i "s|../vendor|../${{secrets.PROJECT_NAME}}/vendor|g" index.php
-          sed -i "s|../bootstrap|../${{secrets.PROJECT_NAME}}/bootstrap|g" index.php
+          sed -i "s|../vendor|../${{secrets.PROJECT_DIR}}/vendor|g" index.php
+          sed -i "s|../bootstrap|../${{secrets.PROJECT_DIR}}/bootstrap|g" index.php
           echo "🚀 Ready"
