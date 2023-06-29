@@ -85,8 +85,11 @@
 <div class="row">
     <div class="col-md-12">
         <div class="card">
-            <div class="card-header">
-                <h4>List Lectures</h4>
+            <div class="card-header card-with-button">
+                List Lectures
+                <div class="list-button">
+                    <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#modalAddLecture"><i class="fas fa-plus"></i> Add Lecture</button>
+                </div>
             </div>
             <div class="card-body">
                 <div class="table-responsive">
@@ -105,6 +108,29 @@
                 </div>
             </div>
         </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="modalAddLecture" tabindex="-1" role="dialog" aria-labelledby="modalAddLectureLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <form action="">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalAddLectureLabel">Add Lecture</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                ...
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Save Lecture</button>
+                </div>
+            </div>
+        </form>
     </div>
 </div>
 @endsection

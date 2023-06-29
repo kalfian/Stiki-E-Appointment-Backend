@@ -1,3 +1,9 @@
 .sidebar .sidebar-brand {
     font-size: .8rem;
 }
+
+.card-with-button {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}

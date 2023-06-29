@@ -11,17 +11,15 @@ class LectureController extends Controller
 {
     //
     public function index(Request $request) {
-        $lectures = User::whereHas('roles', function ($q) {
-            $q->where('roles.name', '=', role()::ROLE_LECTURE);
-          })->get();
-        return view('admin.lectures.index', compact('lectures'));
+        return view('admin.lectures.index');
     }
 
     public function datatables(Request $request) {
         if ($request->ajax() || is_debug()) {
-            $lectures = User::whereHas('roles', function ($q) {
-                $q->where('roles.name', '=', role()::ROLE_LECTURE);
-              });
+            $lectures = User::join('model_has_roles', 'users.id', '=', 'model_has_roles.model_id')
+                ->join('roles', 'model_has_roles.role_id', '=', 'roles.id')
+                ->where('roles.name', '=', role()::ROLE_LECTURE)
+                ->select('users.*');
 
             return datatables()->of($lectures)
                 ->addColumn('action', function ($lecture) {
