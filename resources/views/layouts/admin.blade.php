@@ -18,6 +18,7 @@
 
     <!-- Custom styles for this template-->
     <link href="{{ asset('assets/css/sb-admin-2.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/vendor/sweetalert2/dist/sweetalert2.min.css') }}" rel="stylesheet">
     <link href="{{ asset('assets/css/custom.css') }}" rel="stylesheet">
     @yield('css')
 </head>
@@ -85,6 +86,24 @@
 
     <!-- Custom scripts for all pages-->
     <script src="{{ asset('assets/js/sb-admin-2.min.js') }}"></script>
+    <script src="{{ asset('assets/vendor/sweetalert2/dist/sweetalert2.all.min.js') }}"></script>
+    <script>
+        $(".logout-btn").click(function(e) {
+            e.preventDefault();
+            Swal.fire({
+                title: "Are you sure?",
+                text: "You will be logged out from this session!",
+                icon: "warning",
+                showCancelButton: true,
+                buttons: true,
+                dangerMode: true,
+            }).then((action) => {
+                if (action.isConfirmed) {
+                    window.location.href = "{{ route('auth.signout') }}";
+                }
+            });
+        });
+    </script>
     @yield('script')
 </body>
 
