@@ -17,6 +17,7 @@ return [
 
     'name' => env('APP_NAME', 'Laravel'),
     'name_short' => env('APP_NAME_SHORT', 'lrv'),
+    'name_long' => env('APP_NAME_LONG', 'Laravel'),
 
     /*
     |--------------------------------------------------------------------------
