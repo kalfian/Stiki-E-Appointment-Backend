@@ -271,7 +271,18 @@
 
         $("#btn-export-reset").on('click', function(e){
             e.preventDefault();
-            $("#form-reset-password").submit();
+            Swal.fire({
+                title: "Are you sure?",
+                text: "You will reset password for selected user(s)!",
+                icon: "warning",
+                showCancelButton: true,
+                buttons: true,
+                dangerMode: true,
+            }).then((action) => {
+                if (action.isConfirmed) {
+                    $("#form-reset-password").submit();
+                }
+            });
         });
     });
 
