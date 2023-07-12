@@ -300,6 +300,15 @@
                 $("#modalEditLecture").find('.modal-body').html(res);
                 $("#modalEditLecture").modal('show');
             },
+            error: function(err) {
+                Swal.fire({
+                    title: "Error!",
+                    text: "Something went wrong!",
+                    icon: "error",
+                    buttons: true,
+                    dangerMode: true,
+                });
+            }
         });
 
     })
