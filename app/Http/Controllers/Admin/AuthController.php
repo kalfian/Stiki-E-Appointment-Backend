@@ -6,6 +6,9 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
 use Illuminate\Support\Facades\Auth;
+use App\Exports\ResetPasswordUser;
+
+use Maatwebsite\Excel\Facades\Excel;
 
 class AuthController extends Controller
 {
@@ -31,5 +34,24 @@ class AuthController extends Controller
         $request->session()->invalidate();
         $request->session()->regenerateToken();
         return redirect()->route('auth.login');
+    }
+
+    public function resetPassword(Request $request) {
+
+    }
+
+    public function exportResetPassword(Request $request) {
+        $request->validate([
+            'user_ids' => ['required', 'array', 'min:1'],
+            'user_ids.*' => ['required', 'integer', 'exists:users,id'],
+        ]);
+
+        $user_ids = $request->input('user_ids');
+
+        $export = new ResetPasswordUser($user_ids);
+        $timeNow = date("Ymdhis");
+
+        return Excel::download($export, "reset-password-user-$timeNow.xlsx");
+
     }
 }

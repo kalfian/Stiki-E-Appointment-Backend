@@ -28,16 +28,22 @@ Route::get('/', function () {
 Route::prefix('/auth')->middleware(['guest'])->group(function () {
     Route::get('/', [AdminAuthController::class, 'login'])->name('auth.login');
     Route::post('/', [AdminAuthController::class, 'signIn'])->name('auth.login.signin');
+    Route::get('/reset-password', [AdminAuthController::class, 'resetPassword'])->name('auth.reset_password');
 });
 
 Route::prefix('/dashboard')->middleware(['auth'])->group(function () {
     Route::get('/auth/signout', [AdminAuthController::class, 'signOut'])->name('auth.signout');
+
+    Route::post('/auth/export/reset-password', [AdminAuthController::class, 'exportResetPassword'])->name('auth.export.reset_password');
 
     Route::get('/', [AdminDashboardController::class, 'index'])->name('admin.dashboard');
 
     Route::group(['prefix' => '/lectures'], function () {
         Route::get('/', [AdminLectureController::class, 'index'])->name('admin.lectures.index');
         Route::get('/data', [AdminLectureController::class, 'datatables'])->name('admin.lectures.datatables');
+        Route::get('/edit', [AdminLectureController::class, 'edit'])->name('admin.lectures.edit');
+
+        Route::post('/update', [AdminLectureController::class, 'update'])->name('admin.lectures.update');
     });
 
     Route::group(['prefix' => '/students'], function () {

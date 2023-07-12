@@ -38,6 +38,12 @@
             <span>Master Activity</span>
         </a>
     </li>
+    <li class="nav-item @if(Request::route()->getName() == 'admin.activities.index') active @endif">
+        <a class="nav-link" href="{{ route('admin.activities.index') }}">
+            <i class="fas fa-cogs"></i>
+            <span>Settings</span>
+        </a>
+    </li>
 
     <!-- Nav Item - Pages Collapse Menu -->
     {{-- <li class="nav-item">
