@@ -50,6 +50,11 @@ Route::prefix('/dashboard')->middleware(['auth'])->group(function () {
 
     Route::group(['prefix' => '/students'], function () {
         Route::get('/', [AdminStudentController::class, 'index'])->name('admin.students.index');
+        Route::get('/create', [AdminStudentController::class, 'create'])->name('admin.students.create');
+        Route::post('/create', [AdminStudentController::class, 'store'])->name('admin.students.store');
+        Route::get('/data', [AdminStudentController::class, 'datatables'])->name('admin.students.datatables');
+        Route::get('/edit/{student}', [AdminStudentController::class, 'edit'])->name('admin.students.edit');
+        Route::post('/update', [AdminStudentController::class, 'update'])->name('admin.students.update');
     });
 
     Route::group(['prefix' => '/activities'], function () {
