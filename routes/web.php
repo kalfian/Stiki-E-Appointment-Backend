@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\{
     LectureController as AdminLectureController,
     StudentController as AdminStudentController,
     ActivityController as AdminActivityController,
+    SettingController as AdminSettingController,
 };
 
 /*
@@ -57,8 +58,14 @@ Route::prefix('/dashboard')->middleware(['auth'])->group(function () {
         Route::post('/update', [AdminStudentController::class, 'update'])->name('admin.students.update');
     });
 
+    Route::group(['prefix' => '/settings'], function () {
+        Route::get('/', [AdminSettingController::class, 'index'])->name('admin.settings.index');
+        Route::post('/{setting}', [AdminSettingController::class, 'update'])->name('admin.settings.update');
+    });
+
     Route::group(['prefix' => '/activities'], function () {
         Route::get('/', [AdminActivityController::class, 'index'])->name('admin.activities.index');
+
     });
 
 });

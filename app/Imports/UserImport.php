@@ -9,11 +9,12 @@ use App\Models\User;
 class UserImport implements ToModel, WithHeadingRow
 {
 
-    private $role;
+    private $role, $isUseDefaultPassword;
 
-    public function __construct($role)
+    public function __construct($role, $isUseDefaultPassword = false)
     {
         $this->role = $role;
+        $this->isUseDefaultPassword = $isUseDefaultPassword;
     }
 
     /**
@@ -29,6 +30,7 @@ class UserImport implements ToModel, WithHeadingRow
         $phoneNumber    = $row['phone_number'];
         $gender         = $row['gender'];
         $status         = $row['status'];
+        $major          = $row['major'];
 
         if (strtolower($gender) == 'male') {
             $gender = 1;
@@ -38,6 +40,12 @@ class UserImport implements ToModel, WithHeadingRow
 
         if (!$identity || !$name || !$email || !$phoneNumber || !$gender || !$status) {
             return null;
+        }
+
+        if ($this->role == 'student') {
+            if (!$major) {
+                return null;
+            }
         }
 
         try {
@@ -55,6 +63,15 @@ class UserImport implements ToModel, WithHeadingRow
             $user->gender           = $gender;
             $user->active_status    = $status;
             $user->password         = bcrypt(password_generator());
+            if ($this->isUseDefaultPassword) {
+                $user->password = bcrypt('12345678');
+            }
+
+
+            if ($this->role == 'student') {
+                $user->major = $major;
+            }
+
             $user->save();
 
             return $user;

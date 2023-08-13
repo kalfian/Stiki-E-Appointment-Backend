@@ -77,37 +77,31 @@ php artisan route:clear
 
 ## Task
 
-Superadmin
+Superadmin for admin stiki
 - Core
   - [x] Admin Bootstrap
   - [x] Login Page
-- Superadmin
+- Setting Page
+  - [ ] View Setting
+  - [ ] Edit Setting
+- Superadmin (aka Kaprodi)
   - [ ] View Superadmin
   - [ ] Create Superadmin
   - [ ] Detail Superadmin
-  - [ ] View Student
-  - [ ] Create Student
-  - [ ] View Detail Student
-  - [ ] Edit Student
-  - [ ] View Lecture
-  - [ ] Create Lecture
-  - [ ] View Detail Lecture
-  - [ ] Create Lecture
-  - [ ] Edit Lecture
 - Student
-  - [ ] View Student
-  - [ ] Create Student
+  - [x] View Student
+  - [x] Create Student
   - [ ] View Detail Student
-  - [ ] Edit Student
-  - [ ] Reset password student
+  - [x] Edit Student
+  - [x] Reset password student
   - [ ] Import Student from CSV
-- Lecture
-  - [ ] View Lecture
-  - [ ] Create Lecture
+- Lecture 
+  - [x] View Lecture
+  - [x] Create Lecture
   - [ ] View Detail Lecture
-  - [ ] Create Lecture
-  - [ ] Edit Lecture
-  - [ ] Reset password lecture
+  - [x] Create Lecture
+  - [x] Edit Lecture
+  - [x] Reset password lecture
   - [ ] Import lecture from csv
 - Activity (Role: Admin)
   - [ ] Create Activity

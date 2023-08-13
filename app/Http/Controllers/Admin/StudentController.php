@@ -55,6 +55,7 @@ class StudentController extends Controller
             'gender' => ['required', 'in:1,0'],
             'phone_number' => ['required', 'string', 'max:255'],
             'status' => ['required', 'in:1,0'],
+            'major' => ['required', 'string', 'max:255'],
         ];
 
         $request->validate($validate);
@@ -76,6 +77,7 @@ class StudentController extends Controller
         $student->identity = $request->identity;
         $student->gender = $request->gender;
         $student->phone_number = $request->phone_number;
+        $student->major = $request->major;
         $student->active_status = $request->status;
         $student->save();
 
@@ -96,6 +98,7 @@ class StudentController extends Controller
             'phone_number' => ['required', 'string', 'max:255'],
             'status' => ['required', 'in:1,0'],
             'identity' => ['required', 'string', 'max:255', 'unique:users'],
+            'major' => ['required', 'string', 'max:255'],
             'use_default_password' => ['required', 'in:1,0']
         ];
 
@@ -116,6 +119,7 @@ class StudentController extends Controller
         $student->gender = $request->gender;
         $student->phone_number = $request->phone_number;
         $student->active_status = $request->status;
+        $student->major = $request->major;
         $student->save();
 
         $student->assignRole(role()::ROLE_STUDENT);

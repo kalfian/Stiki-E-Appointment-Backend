@@ -105,6 +105,18 @@
                 }
             });
         });
+        $(".toggle-password").click(function() {
+            var passwordField = $(this).closest('.input-group').find('.password-toggle');
+            var fieldType = passwordField.attr('type');
+
+            if (fieldType === "password") {
+                passwordField.attr('type', 'text');
+                $(this).find('i').removeClass('fa-eye-slash').addClass('fa-eye');
+            } else {
+                passwordField.attr('type', 'password');
+                $(this).find('i').removeClass('fa-eye').addClass('fa-eye-slash');
+            }
+        });
     </script>
     @yield('script')
 </body>
