@@ -107,7 +107,7 @@ class LectureController extends Controller
 
         $password = password_generator();
         if($request->use_default_password == 1) {
-            $password = "12345678";
+            $password = setting()::getDefaultPasswordValue();
         }
 
         $lecture->password = bcrypt($password);

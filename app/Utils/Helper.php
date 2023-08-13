@@ -26,6 +26,11 @@ if (!function_exists('role')) {
     }
 }
 
+if (! function_exists('setting')) {
+    function setting() {
+        return App\Models\Setting::class;
+    }
+}
 
 if (!function_exists('is_debug')) {
     function is_debug() {

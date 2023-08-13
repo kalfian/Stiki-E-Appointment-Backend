@@ -26,7 +26,7 @@ class ResetPasswordUser implements FromView
 
         foreach ($users as $key => $user) {
             $password = password_generator();
-            if ($this->useDefaultPassword == 1) $password = "12345678";
+            if ($this->useDefaultPassword == 1) $password = setting()::getDefaultPasswordValue();
 
             $user->password = bcrypt($password);
             $user->save();

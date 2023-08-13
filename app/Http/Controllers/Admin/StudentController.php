@@ -110,7 +110,7 @@ class StudentController extends Controller
 
         $password = password_generator();
         if($request->use_default_password == 1) {
-            $password = "12345678";
+            $password = setting()::getDefaultPasswordValue();
         }
 
         $student->password = bcrypt($password);

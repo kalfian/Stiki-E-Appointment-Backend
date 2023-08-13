@@ -25,4 +25,12 @@ class Setting extends Model
         return $setting;
     }
 
+    public static function getDefaultPassword() {
+        return Setting::getOrCreateByMeta(Setting::USER_DEFAULT_PASSWORD, '12345678');
+    }
+
+    public static function getDefaultPasswordValue() {
+        return Setting::getDefaultPassword()->value;
+    }
+
 }

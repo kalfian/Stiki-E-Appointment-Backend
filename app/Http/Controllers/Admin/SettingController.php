@@ -10,7 +10,7 @@ class SettingController extends Controller
 {
     //
     public function index(Request $request) {
-        $defaultPassword = Setting::getOrCreateByMeta(Setting::USER_DEFAULT_PASSWORD, '12345678');
+        $defaultPassword = Setting::getDefaultPassword();
 
         return view('admin.settings.index', [
             'userDefaultPassword' => $defaultPassword,
@@ -19,7 +19,6 @@ class SettingController extends Controller
 
     public function update(Request $request, Setting $setting) {
         if ($setting->meta == Setting::USER_DEFAULT_PASSWORD) {
-
             $request->validate([
                 'default_password' => ['required', 'string', 'min:8'],
             ]);
