@@ -35,14 +35,16 @@ Route::prefix('/dashboard')->middleware(['auth'])->group(function () {
     Route::get('/auth/signout', [AdminAuthController::class, 'signOut'])->name('auth.signout');
 
     Route::post('/auth/export/reset-password', [AdminAuthController::class, 'exportResetPassword'])->name('auth.export.reset_password');
+    Route::post('/auth/import/user', [AdminAuthController::class, 'importUser'])->name('auth.import.user');
 
     Route::get('/', [AdminDashboardController::class, 'index'])->name('admin.dashboard');
 
     Route::group(['prefix' => '/lectures'], function () {
         Route::get('/', [AdminLectureController::class, 'index'])->name('admin.lectures.index');
+        Route::get('/create', [AdminLectureController::class, 'create'])->name('admin.lectures.create');
+        Route::post('/create', [AdminLectureController::class, 'store'])->name('admin.lectures.store');
         Route::get('/data', [AdminLectureController::class, 'datatables'])->name('admin.lectures.datatables');
-        Route::get('/edit', [AdminLectureController::class, 'edit'])->name('admin.lectures.edit');
-
+        Route::get('/edit/{lecture}', [AdminLectureController::class, 'edit'])->name('admin.lectures.edit');
         Route::post('/update', [AdminLectureController::class, 'update'])->name('admin.lectures.update');
     });
 

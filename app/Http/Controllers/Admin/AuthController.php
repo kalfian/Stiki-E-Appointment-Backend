@@ -6,9 +6,14 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
 use Illuminate\Support\Facades\Auth;
-use App\Exports\ResetPasswordUser;
+use Illuminate\Support\Facades\Storage;
+
+use App\Imports\UserImport;
+use App\Models\FileLog;
+use DB;
 
 use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\ResetPasswordUser;
 
 class AuthController extends Controller
 {
@@ -44,14 +49,55 @@ class AuthController extends Controller
         $request->validate([
             'user_ids' => ['required', 'array', 'min:1'],
             'user_ids.*' => ['required', 'integer', 'exists:users,id'],
+            'use_default_password' => ['in:1,0'],
         ]);
 
-        $user_ids = $request->input('user_ids');
+        $userIds = $request->input('user_ids');
+        $useDefaultPassword = $request->input('use_default_password');
 
-        $export = new ResetPasswordUser($user_ids);
+        $export = new ResetPasswordUser($userIds, $useDefaultPassword);
         $timeNow = date("Ymdhis");
 
         return Excel::download($export, "reset-password-user-$timeNow.xlsx");
 
+    }
+
+    public function importUser(Request $request) {
+        $request->validate([
+            'file' => ['required', 'file', 'mimes:xlsx,xls,csv,txt'],
+            'role' => ['required', 'in:'.role()::ROLE_LECTURE.','.role()::ROLE_STUDENT.','.role()::ROLE_ADMIN.','.role()::ROLE_SUPERADMIN],
+        ]);
+
+        $file = $request->file('file');
+
+        DB::beginTransaction();
+        try {
+
+            $currentUser = Auth::user();
+
+            $file = $request->file('file');
+            $role = $request->role;
+
+            // Upload to S3
+            $originalName = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
+            $name = $originalName . '-' . $role . '-' . $currentUser->id . '-' . time()  . '.' . $file->getClientOriginalExtension();
+            $path = Storage::disk('s3')->putFileAs('import', $file, $name);;
+
+            $fileLog = new FileLog();
+            $fileLog->user_id = $currentUser->id;
+            $fileLog->file_name = $name;
+            $fileLog->file_path = $path;
+            $fileLog->disk = 's3';
+            $fileLog->save();
+
+            $import = new UserImport($role);
+            Excel::import($import, $file);
+
+            DB::commit();
+            return redirect()->back()->withSuccess('Import user success');
+        } catch (\Exception $e) {
+            DB::rollback();
+            return redirect()->back()->withError($e->getMessage());
+        }
     }
 }

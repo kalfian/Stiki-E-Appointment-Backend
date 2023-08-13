@@ -19,7 +19,7 @@ return new class extends Migration
 
             $table->string('identity')->unique();
             $table->boolean('gender');
-            $table->string('phone_number')->unique();
+            $table->string('phone_number');
             $table->integer('active_status')->default(0);
 
             $table->string('email')->unique();

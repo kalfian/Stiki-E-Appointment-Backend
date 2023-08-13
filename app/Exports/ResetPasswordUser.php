@@ -9,12 +9,13 @@ use Maatwebsite\Excel\Concerns\FromView;
 class ResetPasswordUser implements FromView
 {
 
-    private $userIds;
+    private $userIds, $useDefaultPassword;
 
 
-    public function __construct($userIds)
+    public function __construct($userIds, $useDefaultPassword)
     {
         $this->userIds = $userIds;
+        $this->useDefaultPassword = $useDefaultPassword;
     }
 
     public function view(): View
@@ -25,6 +26,8 @@ class ResetPasswordUser implements FromView
 
         foreach ($users as $key => $user) {
             $password = password_generator();
+            if ($this->useDefaultPassword == 1) $password = "12345678";
+
             $user->password = bcrypt($password);
             $user->save();
 
