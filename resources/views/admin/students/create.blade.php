@@ -7,6 +7,12 @@
 <link rel="stylesheet" href="{{ asset('assets/vendor/jquery-datatables-checkboxes/css/dataTables.checkboxes.css') }}">
 @endsection
 
+@section('breadcrumb')
+<li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">Dashboard</a></li>
+<li class="breadcrumb-item"><a href="{{ route('admin.students.index') }}">Students</a></li>
+<li class="breadcrumb-item active" aria-current="page">Create Student</li>
+@endsection
+
 @section('content')
 <!-- Content Row -->
 <div class="row">

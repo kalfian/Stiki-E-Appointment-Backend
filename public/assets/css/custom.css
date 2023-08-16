@@ -7,3 +7,9 @@
     align-items: center;
     justify-content: space-between;
 }
+
+ol.breadcrumb {
+    padding: 0;
+    margin: 0;
+    background: none;
+}

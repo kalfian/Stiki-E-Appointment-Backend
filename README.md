@@ -82,8 +82,8 @@ Superadmin for admin stiki
   - [x] Admin Bootstrap
   - [x] Login Page
 - Setting Page
-  - [ ] View Setting
-  - [ ] Edit Setting
+  - [x] View Setting
+  - [x] Edit Setting
 - Superadmin (aka Kaprodi)
   - [ ] View Superadmin
   - [ ] Create Superadmin

@@ -1,5 +1,5 @@
 @extends('layouts.admin')
-@section('title', 'Edit Student')
+@section('title', 'Detail Student')
 
 
 @section('css')
@@ -10,7 +10,7 @@
 @section('breadcrumb')
 <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">Dashboard</a></li>
 <li class="breadcrumb-item"><a href="{{ route('admin.students.index') }}">Students</a></li>
-<li class="breadcrumb-item active" aria-current="page">Edit Student</li>
+<li class="breadcrumb-item active" aria-current="page">{{ $student->name }}</li>
 @endsection
 
 @section('content')

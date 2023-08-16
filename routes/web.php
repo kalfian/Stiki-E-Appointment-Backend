@@ -40,7 +40,7 @@ Route::prefix('/dashboard')->middleware(['auth'])->group(function () {
 
     Route::get('/', [AdminDashboardController::class, 'index'])->name('admin.dashboard');
 
-    Route::group(['prefix' => '/lectures'], function () {
+    Route::group(['prefix' => '/lecture'], function () {
         Route::get('/', [AdminLectureController::class, 'index'])->name('admin.lectures.index');
         Route::get('/create', [AdminLectureController::class, 'create'])->name('admin.lectures.create');
         Route::post('/create', [AdminLectureController::class, 'store'])->name('admin.lectures.store');
@@ -49,8 +49,9 @@ Route::prefix('/dashboard')->middleware(['auth'])->group(function () {
         Route::post('/update', [AdminLectureController::class, 'update'])->name('admin.lectures.update');
     });
 
-    Route::group(['prefix' => '/students'], function () {
+    Route::group(['prefix' => '/student'], function () {
         Route::get('/', [AdminStudentController::class, 'index'])->name('admin.students.index');
+        Route::get('/detail/{student}', [AdminStudentController::class, 'show'])->name('admin.students.show');
         Route::get('/create', [AdminStudentController::class, 'create'])->name('admin.students.create');
         Route::post('/create', [AdminStudentController::class, 'store'])->name('admin.students.store');
         Route::get('/data', [AdminStudentController::class, 'datatables'])->name('admin.students.datatables');
@@ -58,12 +59,12 @@ Route::prefix('/dashboard')->middleware(['auth'])->group(function () {
         Route::post('/update', [AdminStudentController::class, 'update'])->name('admin.students.update');
     });
 
-    Route::group(['prefix' => '/settings'], function () {
+    Route::group(['prefix' => '/setting'], function () {
         Route::get('/', [AdminSettingController::class, 'index'])->name('admin.settings.index');
         Route::post('/{setting}', [AdminSettingController::class, 'update'])->name('admin.settings.update');
     });
 
-    Route::group(['prefix' => '/activities'], function () {
+    Route::group(['prefix' => '/activity'], function () {
         Route::get('/', [AdminActivityController::class, 'index'])->name('admin.activities.index');
 
     });

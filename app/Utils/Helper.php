@@ -55,3 +55,12 @@ if (!function_exists('password_generator')) {
         return $password;
     }
 }
+
+if (!function_exists('is_route')) {
+    function is_route($name, $globalName, $useGlobal = true) {
+        if ($useGlobal) {
+            return request()->route()->getName() == $name || str_contains(request()->route()->getName(), $globalName);
+        }
+        return request()->routeIs($name);
+    }
+}

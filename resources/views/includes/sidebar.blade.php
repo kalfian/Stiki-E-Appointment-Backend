@@ -11,34 +11,33 @@
     <!-- Divider -->
     <hr class="sidebar-divider my-0">
 
-    <li class="nav-item @if(Request::route()->getName() == 'admin.dashboard') active @endif">
+    <li class="nav-item @if(is_route('admin.dashboard', '', false)) active @endif">
         <a class="nav-link" href="{{ route('admin.dashboard') }}">
             <i class="fas fa-fw fa-tachometer-alt"></i>
             <span>Dashboard</span>
         </a>
     </li>
 
-    <li class="nav-item @if(Request::route()->getName() == 'admin.lectures.index') active @endif">
+    <li class="nav-item @if(is_route('admin.lectures.index', 'admin.lectures')) active @endif">
         <a class="nav-link" href="{{ route('admin.lectures.index') }}">
             <i class="fas fa-chalkboard-teacher"></i>
             <span>Master Lecture</span>
         </a>
     </li>
 
-    <li class="nav-item @if(Request::route()->getName() == 'admin.students.index') active @endif">
+    <li class="nav-item @if(is_route('admin.students.index', 'admin.students')) active @endif">
         <a class="nav-link" href="{{ route('admin.students.index') }}">
             <i class="fas fa-users"></i>
             <span>Master Student</span>
         </a>
     </li>
-
-    <li class="nav-item @if(Request::route()->getName() == 'admin.activities.index') active @endif">
+    <li class="nav-item @if(is_route('admin.activities.index', 'admin.activities')) active @endif">
         <a class="nav-link" href="{{ route('admin.activities.index') }}">
             <i class="fas fa-star"></i>
             <span>Master Activity</span>
         </a>
     </li>
-    <li class="nav-item @if(Request::route()->getName() == 'admin.settings.index') active @endif">
+    <li class="nav-item @if(is_route('admin.settings.index', 'admin.settings')) active @endif">
         <a class="nav-link" href="{{ route('admin.settings.index') }}">
             <i class="fas fa-cogs"></i>
             <span>Settings</span>

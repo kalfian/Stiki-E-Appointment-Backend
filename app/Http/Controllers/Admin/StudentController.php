@@ -23,7 +23,10 @@ class StudentController extends Controller
 
             return datatables()->of($students)
                 ->addColumn('action', function ($student) {
-                    return "<a href='".route('admin.students.edit', $student->id)."')' class='btn btn-sm btn-primary btn-block btn-edit-student'>Edit</a>";
+                    return "
+                    <a href='".route('admin.students.show', $student->id)."')' class='btn btn-sm btn-info btn-block btn-edit-student'><i class='fas fa-info-circle'></i> Detail</a>
+                    <a href='".route('admin.students.edit', $student->id)."')' class='btn btn-sm btn-primary btn-block btn-edit-student'><i class='fas fa-edit'></i> Edit</a>
+                    ";
                 })
                 ->addColumn('checkbox', function ($item) {
                     return '<input type="checkbox" value="'.$item->id.'" name="user_ids[]" />';
@@ -32,6 +35,18 @@ class StudentController extends Controller
                 ->rawColumns(['action', 'checkbox'])
                 ->make(true);
         }
+    }
+
+    public function show(Request $request, User $student) {
+        if (!$student->hasRole(role()::ROLE_STUDENT)) {
+            return redirect()->route('admin.students.index')->with([
+                'error' => 'student not found',
+            ]);
+        }
+
+        return view('admin.students.show', [
+            'student' => $student,
+        ]);
     }
 
     public function edit(Request $request, User $student) {
