@@ -10,6 +10,7 @@
 @section('breadcrumb')
 <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">Dashboard</a></li>
 <li class="breadcrumb-item"><a href="{{ route('admin.students.index') }}">Students</a></li>
+<li class="breadcrumb-item"><a href="{{ route('admin.students.show', $student->id) }}">{{$student->name}}</a></li>
 <li class="breadcrumb-item active" aria-current="page">Edit Student</li>
 @endsection
 

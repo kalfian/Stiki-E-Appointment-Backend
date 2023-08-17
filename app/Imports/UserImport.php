@@ -62,7 +62,7 @@ class UserImport implements ToModel, WithHeadingRow
             $user->phone_number     = $phoneNumber;
             $user->gender           = $gender;
             $user->active_status    = $status;
-            $user->password         = bcrypt(password_generator());
+            $user->password         = bcrypt(passwordGenerator());
             if ($this->isUseDefaultPassword) {
                 $user->password = bcrypt('12345678');
             }

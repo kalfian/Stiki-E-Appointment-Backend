@@ -91,7 +91,7 @@ Superadmin for admin stiki
 - Student
   - [x] View Student
   - [x] Create Student
-  - [ ] View Detail Student
+  - [x] View Detail Student
   - [x] Edit Student
   - [x] Reset password student
   - [ ] Import Student from CSV

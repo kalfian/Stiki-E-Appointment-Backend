@@ -15,7 +15,7 @@ class StudentController extends Controller
     }
 
     public function datatables(Request $request) {
-        if ($request->ajax() || is_debug()) {
+        if ($request->ajax() || isDebug()) {
             $students = User::join('model_has_roles', 'users.id', '=', 'model_has_roles.model_id')
                 ->join('roles', 'model_has_roles.role_id', '=', 'roles.id')
                 ->where('roles.name', '=', role()::ROLE_STUDENT)
@@ -123,7 +123,7 @@ class StudentController extends Controller
         $student->name = $request->name;
         $student->email = $request->email;
 
-        $password = password_generator();
+        $password = passwordGenerator();
         if($request->use_default_password == 1) {
             $password = setting()::getDefaultPasswordValue();
         }

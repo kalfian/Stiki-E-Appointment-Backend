@@ -32,20 +32,20 @@ if (! function_exists('setting')) {
     }
 }
 
-if (!function_exists('is_debug')) {
-    function is_debug() {
+if (!function_exists('isDebug')) {
+    function isDebug() {
         return config('app.debug') === true;
     }
 }
 
-if (!function_exists('generate_code')) {
-    function generate_code($prefix, int $number, int $length = 3) {
+if (!function_exists('generateCode')) {
+    function generateCode($prefix, int $number, int $length = 3) {
         return $prefix.str_pad($number, $length, 0, STR_PAD_LEFT);
     }
 }
 
-if (!function_exists('password_generator')) {
-    function password_generator($length = 8) {
+if (!function_exists('passwordGenerator')) {
+    function passwordGenerator($length = 8) {
         $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
         $charactersLength = strlen($characters);
         $password = '';
@@ -56,11 +56,41 @@ if (!function_exists('password_generator')) {
     }
 }
 
-if (!function_exists('is_route')) {
-    function is_route($name, $globalName, $useGlobal = true) {
+if (!function_exists('isRoute')) {
+    function isRoute($name, $globalName, $useGlobal = true) {
         if ($useGlobal) {
             return request()->route()->getName() == $name || str_contains(request()->route()->getName(), $globalName);
         }
         return request()->routeIs($name);
+    }
+}
+
+if (!function_exists('translateMajor')) {
+    function translateMajor($major) {
+        switch($major) {
+            case 'ti':
+                return 'Teknik Informatika';
+            case 'si':
+                return 'Sistem Informasi';
+            case 'mi':
+                return 'Manajemen Informatika';
+            case 'dkv':
+                return 'Desain Komunikasi Visual';
+            default:
+                return '-';
+        }
+    }
+}
+
+if (!function_exists('translateGender')) {
+    function translateGender($gender) {
+        switch($gender) {
+            case 0:
+                return 'Male';
+            case 1:
+                return 'Female';
+            default:
+                return '-';
+        }
     }
 }
