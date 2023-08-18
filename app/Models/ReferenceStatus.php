@@ -21,6 +21,7 @@ class ReferenceStatus extends Model
     const STATUS_BANNED = -1;
     const STATUS_DRAFT = 2;
 
+    const STATUS_IMPORT_ON_PROGRESS = 100;
     const STATUS_IMPORT_SUCCESS = 101;
     const STATUS_IMPORT_FAILED = 102;
     const STATUS_IMPORT_DUPLICATE = 103;
@@ -37,6 +38,8 @@ class ReferenceStatus extends Model
             case self::STATUS_DRAFT:
                 return 'Draft';
 
+            case self::STATUS_IMPORT_ON_PROGRESS:
+                return 'Import On Progress';
             case self::STATUS_IMPORT_SUCCESS:
                 return 'Import Success';
             case self::STATUS_IMPORT_FAILED:

@@ -5,16 +5,18 @@ namespace App\Imports;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 use App\Models\User;
+use App\Models\FileDetail;
 
 class UserImport implements ToModel, WithHeadingRow
 {
 
-    private $role, $isUseDefaultPassword;
+    private $role, $isUseDefaultPassword, $fileId;
 
-    public function __construct($role, $isUseDefaultPassword = false)
+    public function __construct($role, $fileId, $isUseDefaultPassword = false)
     {
         $this->role = $role;
         $this->isUseDefaultPassword = $isUseDefaultPassword;
+        $this->fileId = $fileId;
     }
 
     /**
@@ -30,7 +32,9 @@ class UserImport implements ToModel, WithHeadingRow
         $phoneNumber    = $row['phone_number'];
         $gender         = $row['gender'];
         $status         = $row['status'];
-        $major          = $row['major'];
+        $major          = $row['major'] ?? null;
+
+        print("Insert / Update User: " . $identity . "\n");
 
         if (strtolower($gender) == 'male') {
             $gender = 1;
@@ -48,6 +52,12 @@ class UserImport implements ToModel, WithHeadingRow
             }
         }
 
+        $detail = new FileDetail();
+        $detail->file_log_id = $this->fileId;
+        $detail->status = referenceStatus()::STATUS_IMPORT_ON_PROGRESS;
+        $detail->description = "Insert / Update User: $email";
+        $detail->save();
+
         try {
             $user = User::where('identity', $identity)->first();
             if ($user) {
@@ -64,7 +74,7 @@ class UserImport implements ToModel, WithHeadingRow
             $user->active_status    = $status;
             $user->password         = bcrypt(passwordGenerator());
             if ($this->isUseDefaultPassword) {
-                $user->password = bcrypt('12345678');
+                $user->password = bcrypt(setting()::getDefaultPasswordValue());
             }
 
 
@@ -74,9 +84,15 @@ class UserImport implements ToModel, WithHeadingRow
 
             $user->save();
 
+            $detail->status = FileDetail::STATUS_SUCCESS;
+            $detail->save();
+
             return $user;
 
         } catch (\Exception $e) {
+            $detail->status = FileDetail::STATUS_FAILED;
+            $detail->reason = "Error insert/update user $email : $e->getMessage()";
+            $detail->save();
             return null;
         }
     }

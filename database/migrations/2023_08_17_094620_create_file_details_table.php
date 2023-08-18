@@ -17,7 +17,7 @@ return new class extends Migration
     {
         Schema::create('file_details', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('file_id');
+            $table->foreignId('file_log_id');
 
             $table->string('description')->nullable();
             $table->string('reason')->nullable();
@@ -28,6 +28,12 @@ return new class extends Migration
 
         // Insert Reference status for file details
         ReferenceStatus::insert([
+            [
+                'status' => ReferenceStatus::STATUS_IMPORT_ON_PROGRESS,
+                'name' => 'Import On Progress',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
             [
                 'status' => ReferenceStatus::STATUS_IMPORT_SUCCESS,
                 'name' => 'Import Success',

@@ -15,6 +15,8 @@ use DB;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\ResetPasswordUser;
 
+use App\Jobs\ImportUserJob;
+
 class AuthController extends Controller
 {
     public function login() {
@@ -66,6 +68,7 @@ class AuthController extends Controller
         $request->validate([
             'file' => ['required', 'file', 'mimes:xlsx,xls,csv,txt'],
             'role' => ['required', 'in:'.role()::ROLE_LECTURE.','.role()::ROLE_STUDENT.','.role()::ROLE_ADMIN.','.role()::ROLE_SUPERADMIN],
+            'use_default_password' => ['in:1,0']
         ]);
 
         $file = $request->file('file');
@@ -88,10 +91,11 @@ class AuthController extends Controller
             $fileLog->file_name = $name;
             $fileLog->file_path = $path;
             $fileLog->disk = 's3';
+            $fileLog->import_type = $role;
+            $fileLog->use_default_password = $request->use_default_password ?? false;
             $fileLog->save();
 
-            $import = new UserImport($role);
-            Excel::import($import, $file);
+            ImportUserJob::dispatch($fileLog->id);
 
             DB::commit();
             return redirect()->back()->withSuccess('Import user success');
