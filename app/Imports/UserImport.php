@@ -36,35 +36,52 @@ class UserImport implements ToModel, WithHeadingRow
 
         print("Insert / Update User: " . $identity . "\n");
 
-        if (strtolower($gender) == 'male') {
-            $gender = 1;
-        } else {
-            $gender = 0;
-        }
-
-        if (!$identity || !$name || !$email || !$phoneNumber || !$gender || !$status) {
-            return null;
-        }
-
-        if ($this->role == 'student') {
-            if (!$major) {
-                return null;
-            }
-        }
-
         $detail = new FileDetail();
         $detail->file_log_id = $this->fileId;
         $detail->status = referenceStatus()::STATUS_IMPORT_ON_PROGRESS;
         $detail->description = "Insert / Update User: $email";
         $detail->save();
 
-        try {
-            $user = User::where('identity', $identity)->first();
-            if ($user) {
+        if (strtolower($gender) == 'male') {
+            $gender = 1;
+        } else {
+            $gender = 0;
+        }
+
+        if (is_null($identity) || is_null($name) || is_null($email) || is_null($phoneNumber) || is_null($gender) || is_null($status)) {
+            $detail->status = referenceStatus()::STATUS_IMPORT_FAILED;
+            $detail->description = "Error insert/update user $email : Invalid data";
+
+            $data = [
+                "identity" => $identity,
+                "name" => $name,
+                "email" => $email,
+                "phone_number" => $phoneNumber,
+                "gender" => $gender,
+                "status" => $status,
+                "role" => $this->role,
+                "major" => $major
+            ];
+            $detail->extras = json_encode($data);
+
+            $detail->save();
+            return null;
+        }
+
+        if ($this->role == 'student') {
+            if (is_null($major)) {
+                $detail->status = referenceStatus()::STATUS_IMPORT_FAILED;
+                $detail->description = "Error insert/update user $email : Invalid data";
+                $detail->save();
                 return null;
             }
+        }
 
-            $user = new User();
+        try {
+            $user = User::where('identity', $identity)->first();
+            if (!$user) {
+                $user = new User();
+            }
 
             $user->identity         = $identity;
             $user->name             = $name;
@@ -83,15 +100,18 @@ class UserImport implements ToModel, WithHeadingRow
             }
 
             $user->save();
+            $user->assignRole($this->role);
 
-            $detail->status = FileDetail::STATUS_SUCCESS;
+            $detail->status = referenceStatus()::STATUS_IMPORT_SUCCESS;
             $detail->save();
 
             return $user;
 
         } catch (\Exception $e) {
-            $detail->status = FileDetail::STATUS_FAILED;
-            $detail->reason = "Error insert/update user $email : $e->getMessage()";
+            $detail->status = referenceStatus()::STATUS_IMPORT_FAILED;
+            $detail->reason = "Error insert/update user $email";
+            $detail->extras = $e->getMessage();
+            print($e->getMessage() . "\n");
             $detail->save();
             return null;
         }

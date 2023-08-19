@@ -94,7 +94,7 @@ Superadmin for admin stiki
   - [x] View Detail Student
   - [x] Edit Student
   - [x] Reset password student
-  - [ ] Import Student from CSV
+  - [x] Import Student from CSV
 - Lecture 
   - [x] View Lecture
   - [x] Create Lecture
@@ -102,7 +102,7 @@ Superadmin for admin stiki
   - [x] Create Lecture
   - [x] Edit Lecture
   - [x] Reset password lecture
-  - [ ] Import lecture from csv
+  - [x] Import lecture from csv
 - Activity (Role: Admin)
   - [ ] Create Activity
   - [ ] Get Detail Activity
