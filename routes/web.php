@@ -42,6 +42,7 @@ Route::prefix('/dashboard')->middleware(['auth'])->group(function () {
 
     Route::group(['prefix' => '/lecture'], function () {
         Route::get('/', [AdminLectureController::class, 'index'])->name('admin.lectures.index');
+        Route::get('/detail/{lecture}', [AdminLectureController::class, 'show'])->name('admin.lectures.show');
         Route::get('/create', [AdminLectureController::class, 'create'])->name('admin.lectures.create');
         Route::post('/create', [AdminLectureController::class, 'store'])->name('admin.lectures.store');
         Route::get('/data', [AdminLectureController::class, 'datatables'])->name('admin.lectures.datatables');

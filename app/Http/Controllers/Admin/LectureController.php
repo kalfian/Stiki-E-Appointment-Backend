@@ -23,7 +23,10 @@ class LectureController extends Controller
 
             return datatables()->of($lectures)
                 ->addColumn('action', function ($lecture) {
-                    return "<a href='".route('admin.lectures.edit', $lecture->id)."')' class='btn btn-sm btn-primary btn-block btn-edit-lecture'>Edit</a>";
+                    return "
+                    <a href='".route('admin.lectures.show', $lecture->id)."')' class='btn btn-sm btn-info btn-block btn-detail-lecture'><i class='fas fa-info-circle'></i> Detail</a>
+                    <a href='".route('admin.lectures.edit', $lecture->id)."')' class='btn btn-sm btn-primary btn-block btn-edit-lecture'><i class='fas fa-edit'></i> Edit</a>
+                    ";
                 })
                 ->addColumn('checkbox', function ($item) {
                     return '<input type="checkbox" value="'.$item->id.'" name="user_ids[]" />';
@@ -43,6 +46,18 @@ class LectureController extends Controller
         }
 
         return view('admin.lectures.edit', [
+            'lecture' => $lecture,
+        ]);
+    }
+
+    public function show(Request $request, User $lecture) {
+        if (!$lecture->hasRole(role()::ROLE_LECTURE)) {
+            return redirect()->route('admin.lectures.index')->with([
+                'error' => 'lecture not found',
+            ]);
+        }
+
+        return view('admin.lectures.show', [
             'lecture' => $lecture,
         ]);
     }
