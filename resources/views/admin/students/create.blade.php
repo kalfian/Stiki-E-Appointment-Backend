@@ -16,7 +16,7 @@
 @section('content')
 <!-- Content Row -->
 <div class="row">
-    <div class="col-md-12">
+    <div class="col-md-12 mb-5">
         <div class="card">
             <div class="card-header card-with-button">
                 Create Student
@@ -118,7 +118,7 @@
                             </div>
                         </div>
 
-                        <button class="btn btn-primary" type="submit">Create student</button>
+                        <button class="btn btn-primary float-right" type="submit">Create student</button>
                         </form>
                     </div>
                 </div>

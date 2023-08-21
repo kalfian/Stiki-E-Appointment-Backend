@@ -17,7 +17,7 @@
 @section('content')
 <!-- Content Row -->
 <div class="row">
-    <div class="col-md-12">
+    <div class="col-md-12 mb-5">
         <div class="card">
             <div class="card-header card-with-button">
                 Edit Lecture
@@ -90,7 +90,7 @@
                                     </label>
                                 </div>
                             </div>
-                            <button class="btn btn-primary" type="submit">Update Lecture</button>
+                            <button class="btn btn-primary float-right" type="submit">Update Lecture</button>
                         </form>
                     </div>
                 </div>

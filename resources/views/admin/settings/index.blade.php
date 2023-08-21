@@ -34,7 +34,7 @@
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
-                        <button class="btn btn-primary" type="submit">Save Default Password</button>
+                        <button class="btn btn-primary float-right" type="submit">Save Default Password</button>
                         </form>
                     </div>
                 </div>

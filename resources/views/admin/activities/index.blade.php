@@ -1,10 +1,9 @@
 @extends('layouts.admin')
-@section('title', 'Master Lecture')
+@section('title', 'Master Activities')
 
 
 @section('css')
 <link rel="stylesheet" href="{{ asset('assets/vendor/datatables/dataTables.bootstrap4.min.css') }}">
-<link rel="stylesheet" href="{{ asset('assets/vendor/jquery-datatables-checkboxes/css/dataTables.checkboxes.css') }}">
 @endsection
 
 @section('breadcrumb')
@@ -18,28 +17,26 @@
     <div class="col-md-12">
         <div class="card">
             <div class="card-header card-with-button">
-                List Lectures
+                List Activities
                 <form method="POST" action="{{ route('auth.export.reset_password')}} " id="form-reset-password">
                 @csrf
                 </form>
                 <div class="list-button">
                     {{-- <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#modalAddLecture"><i class="fas fa-plus"></i> Add Lecture</button> --}}
-                    <a class="btn btn-primary btn-sm" href="{{ route('admin.lectures.create') }}"><i class="fas fa-plus"></i> Add Lecture</a>
-                    <button class="btn btn-success btn-sm" id="btn-export-reset"><i class="fas fa-file-export"></i> Reset & Export Password</button>
-                    <button class="btn btn-info btn-sm" data-toggle="modal" data-target="#modalImportLecture"><i class="fas fa-file-import"></i> Import Lecture</button>
+                    <a class="btn btn-primary btn-sm" href="{{ route('admin.activities.create') }}"><i class="fas fa-plus"></i> Add Activity</a>
                 </div>
             </div>
             <div class="card-body">
                 <div class="table-responsive">
-                    <table class="table table-bordered" id="table-lecture" width="100%" cellspacing="0">
+                    <table class="table table-bordered" id="table-activity" width="100%" cellspacing="0">
                         <thead>
                             <tr>
-                                <th><input type="checkbox" id="check-all" /></th>
-                                <th>ID</th>
-                                <th>Lecture Name</th>
-                                <th>Email</th>
-                                <th>Phone Number</th>
-                                <th>Gender</th>
+                                <th>#</th>
+                                <th>Created</th>
+                                <th>Name</th>
+                                <th>Start Date</th>
+                                <th>End Date</th>
+                                <th>Total Participant</th>
                                 <th>Status</th>
                                 <th>Action</th>
                             </tr>
@@ -52,69 +49,48 @@
 </div>
 
 <!-- Modal -->
-@include('admin.lectures.modal')
 @endsection
 
 @section('script')
 <script src="{{ asset('assets/vendor/datatables/jquery.dataTables.min.js') }}"></script>
 <script src="{{ asset('assets/vendor/datatables/dataTables.bootstrap4.min.js') }}"></script>
-<script src="{{ asset('assets/vendor/jquery-datatables-checkboxes/js/dataTables.checkboxes.min.js') }}"></script>
 <script>
     $(document).ready(function() {
-        var table = $('#table-lecture').DataTable({
+        var table = $('#table-activity').DataTable({
             processing: true,
             serverSide: true,
-            stateSave: true,
-            select: 'multi',
             ajax: {
-                url: "{{ route('admin.lectures.datatables') }}",
+                url: "{{ route('admin.activities.datatables') }}",
             },
-            order: [
-                [1, 'desc']
-            ],
-            columnDefs: [
-                {
-                    targets: 0,
-                    checkboxes: {
-                        selectRow: true,
-                        stateSave: false
-                    }
-                }
-            ],
+            order: [[ 1, "desc" ]],
             columns: [
                 {
-                    data: 'checkbox',
-                    name: 'checkbox',
+                    data: 'banner',
+                    name: 'banner',
                     orderable: false,
-                    searchable: false
                 },
                 {
-                    data: 'identity',
-                    name: 'identity',
+                    data: 'created_at',
+                    name: 'created_at',
+                    render: function(data, type, row) {
+                        return moment(data).fromNow();
+                    }
                 },
                 {
                     data: 'name',
                     name: 'name'
                 },
                 {
-                    data: 'email',
-                    name: 'email'
+                    data: 'start_date',
+                    name: 'start_date'
                 },
                 {
-                    data: 'phone_number',
-                    name: 'phone_number'
+                    data: 'end_date',
+                    name: 'end_date'
                 },
                 {
-                    data: 'gender',
-                    name: 'gender',
-                    render: function ( data, type, row ) {
-                        var gender = "Male";
-                        if (data == 1 ) {
-                            gender = "Female";
-                        }
-
-                        return '<div class="badge badge-info">'+gender+'</div>';
-                    }
+                    data: 'total_participant',
+                    name: 'total_participant'
                 },
                 {
                     data: 'active_status',
@@ -151,51 +127,6 @@
                     orderable: false,
                 }
             ]
-        });
-
-        $('#form-reset-password').on('submit', function(e){
-            var form = this;
-
-            var rows_selected = table.column(0).checkboxes.selected();
-
-            // Iterate over all selected checkboxes
-            $.each(rows_selected, function(index, row){
-                // Create a hidden element
-                var value = $(row).val();
-                $(form).append(
-                    $('<input>')
-                        .attr('type', 'hidden')
-                        .attr('name', 'user_ids[]')
-                        .val(value)
-                );
-            });
-        });
-
-        $("#btn-export-reset").on('click', function(e){
-            e.preventDefault();
-            Swal.fire({
-                title: "Are you sure?",
-                text: "You will reset password for selected user(s)!",
-                icon: "warning",
-                showCancelButton: true,
-                showDenyButton: true,
-                denyButtonText: "Yes, use default password",
-                denyButtonColor: "#3085d6",
-                buttons: true,
-                dangerMode: true,
-            }).then((action) => {
-                if (action.isConfirmed) {
-                    $("#form-reset-password").submit();
-                } else if (action.isDenied) {
-                    $("#form-reset-password").append(
-                        $('<input>')
-                            .attr('type', 'hidden')
-                            .attr('name', 'use_default_password')
-                            .val(1)
-                    );
-                    $("#form-reset-password").submit();
-                }
-            });
         });
     });
 

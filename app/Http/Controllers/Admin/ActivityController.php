@@ -12,8 +12,7 @@ class ActivityController extends Controller
     //
 
     public function index(Request $request) {
-        $activities = Activity::all();
-        return view('admin.activities.index', compact('activities'));
+        return view('admin.activities.index');
     }
 
     public function datatables(Request $request) {
@@ -30,5 +29,35 @@ class ActivityController extends Controller
                 ->rawColumns(['action'])
                 ->make(true);
         }
+    }
+
+    public function create(Request $request) {
+        return view('admin.activities.create');
+    }
+
+    public function store(Request $request) {
+        $request->validate([
+            'name' => ['required'],
+            'description' => ['required'],
+            'start_date' => ['required'],
+            'end_date' => ['required'],
+            'image' => ['image', 'mimes:jpeg,png,jpg,gif,svg']
+        ]);
+
+        $activity = new Activity();
+        $activity->name = $request->name;
+        $activity->description = $request->description;
+        $activity->location = $request->location;
+        $activity->start_date = $request->start_date;
+        $activity->end_date = $request->end_date;
+        $activity->save();
+
+        if ($request->hasFile('banner')) {
+            $activity->addMediaFromRequest('banner')->toMediaCollection('banner');
+        }
+
+        return redirect()->route('admin.activities.index')->with([
+            'success' => 'Activity created successfully',
+        ]);
     }
 }
