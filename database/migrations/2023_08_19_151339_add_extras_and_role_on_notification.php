@@ -13,14 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('notification_categories', function (Blueprint $table) {
-            $table->id();
-
-            $table->string('name');
-            $table->string('slug');
-            $table->string('description')->nullable();
-
-            $table->timestamps();
+        //
+        Schema::table('notifications', function (Blueprint $table) {
+            $table->bigInteger('role_id')->nullable()->after('id');
+            $table->longText('extras')->nullable();
         });
     }
 
@@ -31,6 +27,10 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('notification_categories');
+        //
+        Schema::table('notifications', function (Blueprint $table) {
+            $table->dropColumn('role_id');
+            $table->dropColumn('extras');
+        });
     }
 };

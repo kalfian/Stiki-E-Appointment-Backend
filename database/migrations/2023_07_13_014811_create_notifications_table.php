@@ -18,7 +18,6 @@ return new class extends Migration
 
             $table->string('title');
             $table->text('content');
-            $table->foreignId('notification_category_id');
 
             // Notification for specific user
             $table->foreignId('user_id')->nullable();

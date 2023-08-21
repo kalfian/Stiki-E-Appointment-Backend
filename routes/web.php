@@ -60,14 +60,14 @@ Route::prefix('/dashboard')->middleware(['auth'])->group(function () {
         Route::post('/update', [AdminStudentController::class, 'update'])->name('admin.students.update');
     });
 
+    Route::group(['prefix' => '/activity'], function () {
+        Route::get('/', [AdminActivityController::class, 'index'])->name('admin.activities.index');
+        Route::get('/data', [AdminActivityController::class, 'datatables'])->name('admin.activities.datatables');
+
+    });
+
     Route::group(['prefix' => '/setting'], function () {
         Route::get('/', [AdminSettingController::class, 'index'])->name('admin.settings.index');
         Route::post('/{setting}', [AdminSettingController::class, 'update'])->name('admin.settings.update');
     });
-
-    Route::group(['prefix' => '/activity'], function () {
-        Route::get('/', [AdminActivityController::class, 'index'])->name('admin.activities.index');
-
-    });
-
 });

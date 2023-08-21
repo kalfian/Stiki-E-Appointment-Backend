@@ -8,4 +8,7 @@ use Illuminate\Http\Request;
 class NotificationController extends Controller
 {
     //
+    public function index(Request $request) {
+        return view('admin.notifications.index');
+    }
 }
