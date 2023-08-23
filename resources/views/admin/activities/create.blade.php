@@ -30,14 +30,14 @@
                     <div class="col-md-12">
                         <div class="form-group">
                             <label>Name</label>
-                            <input type="text" class="form-control" name="name" placeholder="Activity Name" required>
+                            <input type="text" class="form-control" name="name" placeholder="Activity Name" required value="{{ old('name') }}">
                             @error('name')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
                         <div class="form-group">
                             <label>Banner</label>
-                            <input type="file" class="form-control" name="banner" required>
+                            <input type="file" class="form-control" name="banner">
                             @error('banner')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
@@ -53,7 +53,7 @@
                         </div>
                         <div class="form-group">
                             <label>Description</label>
-                            <textarea name="description" class="tinymce-input" id="" cols="30" rows="10"></textarea>
+                            <textarea name="description" class="tinymce-input" id="" cols="30" rows="10">{{ old('description') }}</textarea>
                             @error('name')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
@@ -75,7 +75,7 @@
                         </div>
                         <div class="form-group">
                             <label>Location</label>
-                            <input type="text" class="form-control" name="location" placeholder="Activity Location" required>
+                            <input type="text" class="form-control" name="location" placeholder="Activity Location" required value="{{ old('location') }}">
                             @error('location')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
@@ -97,7 +97,7 @@
                     <div class="col-md-12">
                         <div class="form-group">
                             <label>Lecture</label>
-                            <select name="lecture" class="form-control" id="">
+                            <select name="lecture" class="form-control">
                                 <option value="">Select Lecture</option>
                                 @foreach($lectures as $lecture)
                                 <option value="{{ $lecture->id }}">{{ $lecture->name }}</option>

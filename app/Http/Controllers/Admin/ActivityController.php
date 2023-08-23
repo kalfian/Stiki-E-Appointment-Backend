@@ -6,7 +6,11 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
 use App\Models\Activity;
+use App\Models\ActivityParticipant;
+
 use App\Models\User;
+
+use Illuminate\Support\Facades\DB;
 
 
 class ActivityController extends Controller
@@ -19,7 +23,7 @@ class ActivityController extends Controller
 
     public function datatables(Request $request) {
         if ($request->ajax() || isDebug()) {
-            $activities = Activity::with(['banner']);
+            $activities = Activity::with(['banner'])->withCount(['students']);
 
             return datatables()->of($activities)
                 ->addColumn('action', function ($lecture) {
@@ -27,13 +31,13 @@ class ActivityController extends Controller
                     <a href='#' class='btn btn-sm btn-info btn-block'><i class='fas fa-info-circle'></i> Detail</a>
                     ";
                 })
-                ->addColumn('total_participant', function($lecture){
-                    return 0;
-                })
                 ->addColumn('banner_image', function($lecture){
-                    return "
-                    <a data-fancybox href='{$lecture->banner->getUrl()}'><img src='{$lecture->banner->getUrl('thumbnail')}' class='img-fluid img-200'></a>
-                    ";
+                    $banner = "-";
+                    if (!is_null($lecture->banner)) {
+                        $banner = "<a data-fancybox href='{$lecture->banner->getUrl()}'><img src='{$lecture->banner->getUrl('thumbnail')}' class='img-fluid img-200'></a>";
+                    }
+
+                    return $banner;
                 })
                 ->addIndexColumn()
                 ->rawColumns(['action', 'banner_image'])
@@ -59,23 +63,56 @@ class ActivityController extends Controller
             'description' => ['required'],
             'start_date' => ['required'],
             'end_date' => ['required'],
-            'banner' => ['image', 'mimes:jpeg,png,jpg,gif,svg']
+            'banner' => ['image', 'mimes:jpeg,png,jpg,gif,svg'],
+            'lecture' => ['exists:users,id', 'nullable'],
+            'students' => ['array'],
+            'students.*' => ['exists:users,id'],
         ]);
 
-        $activity = new Activity();
-        $activity->name = $request->name;
-        $activity->description = $request->description;
-        $activity->location = $request->location;
-        $activity->start_date = $request->start_date;
-        $activity->end_date = $request->end_date;
-        $activity->save();
+        DB::beginTransaction();
 
-        if ($request->hasFile('banner')) {
-            $activity->addMediaFromRequest('banner')->toMediaCollection('banner');
+
+        try {
+            $activity = new Activity();
+            $activity->name = $request->name;
+            $activity->description = $request->description;
+            $activity->location = $request->location;
+            $activity->start_date = $request->start_date;
+            $activity->end_date = $request->end_date;
+            $activity->save();
+
+            if ($request->hasFile('banner')) {
+                $activity->addMediaFromRequest('banner')->toMediaCollection('banner');
+            }
+
+            if (!is_null($request->lecture)) {
+                $participant = new ActivityParticipant();
+                $participant->activity_id = $activity->id;
+                $participant->user_id = $request->lecture;
+                $participant->is_lecturer = true;
+                $participant->save();
+            }
+
+            if ($request->has('students')) {
+                foreach ($request->students as $student) {
+                    $participant = new ActivityParticipant();
+                    $participant->activity_id = $activity->id;
+                    $participant->user_id = $student;
+                    $participant->is_lecturer = false;
+                    $participant->save();
+                }
+            }
+
+            DB::commit();
+
+            return redirect()->route('admin.activities.index')->with([
+                'success' => 'Activity created successfully',
+            ]);
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return redirect()->back()->withInput()->with([
+                'error' => $e->getMessage(),
+            ]);
         }
-
-        return redirect()->route('admin.activities.index')->with([
-            'success' => 'Activity created successfully',
-        ]);
     }
 }

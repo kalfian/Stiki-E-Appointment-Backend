@@ -26,4 +26,12 @@ class Activity extends Model implements HasMedia
         ->fit(Manipulations::FIT_CROP, 200, 80)
         ->nonQueued();
     }
+
+    public function participants() {
+        return $this->hasMany(ActivityParticipant::class);
+    }
+
+    public function students() {
+        return $this->participants()->where('is_lecturer', '=', false);
+    }
 }

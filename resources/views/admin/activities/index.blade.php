@@ -36,7 +36,7 @@
                                 <th>Name</th>
                                 <th>Start Date</th>
                                 <th>End Date</th>
-                                <th>Total Participant</th>
+                                <th>Total Student</th>
                                 <th>Status</th>
                                 <th>Action</th>
                             </tr>
@@ -90,8 +90,8 @@
                     name: 'end_date'
                 },
                 {
-                    data: 'total_participant',
-                    name: 'total_participant'
+                    data: 'students_count',
+                    name: 'students_count'
                 },
                 {
                     data: 'active_status',
