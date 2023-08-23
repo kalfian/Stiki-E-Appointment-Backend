@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
 use App\Models\Activity;
+use App\Models\User;
+
 
 class ActivityController extends Controller
 {
@@ -17,7 +19,7 @@ class ActivityController extends Controller
 
     public function datatables(Request $request) {
         if ($request->ajax() || isDebug()) {
-            $activities = Activity::select('activities.*');
+            $activities = Activity::with(['banner']);
 
             return datatables()->of($activities)
                 ->addColumn('action', function ($lecture) {
@@ -25,14 +27,30 @@ class ActivityController extends Controller
                     <a href='#' class='btn btn-sm btn-info btn-block'><i class='fas fa-info-circle'></i> Detail</a>
                     ";
                 })
+                ->addColumn('total_participant', function($lecture){
+                    return 0;
+                })
+                ->addColumn('banner_image', function($lecture){
+                    return "
+                    <a data-fancybox href='{$lecture->banner->getUrl()}'><img src='{$lecture->banner->getUrl('thumbnail')}' class='img-fluid img-200'></a>
+                    ";
+                })
                 ->addIndexColumn()
-                ->rawColumns(['action'])
+                ->rawColumns(['action', 'banner_image'])
                 ->make(true);
         }
     }
 
     public function create(Request $request) {
-        return view('admin.activities.create');
+        $lectures = User::join('model_has_roles', 'users.id', '=', 'model_has_roles.model_id')
+            ->join('roles', 'model_has_roles.role_id', '=', 'roles.id')
+            ->where('roles.name', '=', role()::ROLE_LECTURE)
+            ->select('users.*')
+            ->get();
+
+        return view('admin.activities.create', [
+            'lectures' => $lectures,
+        ]);
     }
 
     public function store(Request $request) {
@@ -41,7 +59,7 @@ class ActivityController extends Controller
             'description' => ['required'],
             'start_date' => ['required'],
             'end_date' => ['required'],
-            'image' => ['image', 'mimes:jpeg,png,jpg,gif,svg']
+            'banner' => ['image', 'mimes:jpeg,png,jpg,gif,svg']
         ]);
 
         $activity = new Activity();

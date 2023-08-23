@@ -58,6 +58,7 @@ Route::prefix('/dashboard')->middleware(['auth'])->group(function () {
         Route::get('/data', [AdminStudentController::class, 'datatables'])->name('admin.students.datatables');
         Route::get('/edit/{student}', [AdminStudentController::class, 'edit'])->name('admin.students.edit');
         Route::post('/update', [AdminStudentController::class, 'update'])->name('admin.students.update');
+        Route::get('/select2', [AdminStudentController::class, 'select2'])->name('admin.students.select2');
     });
 
     Route::group(['prefix' => '/activity'], function () {

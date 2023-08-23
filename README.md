@@ -98,7 +98,7 @@ Superadmin for admin stiki
 - Lecture 
   - [x] View Lecture
   - [x] Create Lecture
-  - [ ] View Detail Lecture
+  - [x] View Detail Lecture
   - [x] Create Lecture
   - [x] Edit Lecture
   - [x] Reset password lecture

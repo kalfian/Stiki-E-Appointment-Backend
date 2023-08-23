@@ -52,6 +52,7 @@
 @endsection
 
 @section('script')
+<script src="{{ asset('assets/vendor/moment/min/moment.min.js') }}"></script>
 <script src="{{ asset('assets/vendor/datatables/jquery.dataTables.min.js') }}"></script>
 <script src="{{ asset('assets/vendor/datatables/dataTables.bootstrap4.min.js') }}"></script>
 <script>
@@ -65,8 +66,8 @@
             order: [[ 1, "desc" ]],
             columns: [
                 {
-                    data: 'banner',
-                    name: 'banner',
+                    data: 'banner_image',
+                    name: 'banner_image',
                     orderable: false,
                 },
                 {

@@ -6,6 +6,7 @@
 <link rel="stylesheet" href="{{ asset('assets/vendor/datatables/dataTables.bootstrap4.min.css') }}">
 <link rel="stylesheet" href="{{ asset('assets/vendor/jquery-datatables-checkboxes/css/dataTables.checkboxes.css') }}">
 <link rel="stylesheet" href="{{ asset('assets/vendor/daterangepicker/daterangepicker.css') }}">
+<link rel="stylesheet" href="{{ asset('assets/vendor/select2/dist/css/select2.min.css') }}">
 
 @endsection
 
@@ -95,13 +96,23 @@
                 <div class="row">
                     <div class="col-md-12">
                         <div class="form-group">
-                            <label>Identity</label>
-                            <input type="text" class="form-control" name="identity" placeholder="Enter ID">
-                            @error('id')
+                            <label>Lecture</label>
+                            <select name="lecture" class="form-control" id="">
+                                <option value="">Select Lecture</option>
+                                @foreach($lectures as $lecture)
+                                <option value="{{ $lecture->id }}">{{ $lecture->name }}</option>
+                                @endforeach
+                            </select>
+                            @error('lecture')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
+                        <div class="form-group">
+                            <label for="">Students</label>
+                            <select name="students[]" class="form-control" id="select-students" multiple>
 
+                            </select>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -114,6 +125,7 @@
 @section('script')
 <script src="{{ asset('assets/vendor/moment/min/moment.min.js') }}"></script>
 <script src="{{ asset('assets/vendor/daterangepicker/daterangepicker.js') }}"></script>
+<script src="{{ asset('assets/vendor/select2/dist/js/select2.full.min.js') }}"></script>
 <script>
     $('#filter-date-activity').daterangepicker({
         ranges: {
@@ -150,6 +162,23 @@
         menubar: false,
         plugins: 'anchor autolink charmap image link lists media searchreplace visualblocks wordcount',
         toolbar: 'undo redo | blocks | bold italic underline strikethrough | align lineheight | checklist numlist bullist indent outdent | removeformat',
+    });
+</script>
+<script>
+    $('#select-students').select2({
+        ajax: {
+            url: "{{ route('admin.students.select2') }}",
+            dataType: 'json',
+            delay: 250,
+            processResults: function (data) {
+                return {
+                    results: data
+                };
+            },
+            cache: true
+        },
+        placeholder: 'Search Student',
+        minimumInputLength: 3,
     });
 </script>
 @endsection

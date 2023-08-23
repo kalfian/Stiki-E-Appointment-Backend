@@ -143,4 +143,30 @@ class StudentController extends Controller
             'success' => 'student created successfully',
         ]);
     }
+
+    public function select2(Request $request) {
+        $students = User::join('model_has_roles', 'users.id', '=', 'model_has_roles.model_id')
+            ->join('roles', 'model_has_roles.role_id', '=', 'roles.id')
+            ->where('roles.name', '=', role()::ROLE_STUDENT)
+            ->select('users.*');
+
+        if ($request->has('q')) {
+            $students = $students->where(function($query) use ($request) {
+                $query->where('users.name', 'like', "%{$request->q}%")
+                    ->orWhere('users.identity', 'like', "%{$request->q}%");
+            });
+        }
+
+        $students = $students->get();
+
+        $data = [];
+        foreach ($students as $student) {
+            $data[] = [
+                'id' => $student->id,
+                'text' => "{$student->identity} - {$student->name}",
+            ];
+        }
+
+        return response()->json($data);
+    }
 }

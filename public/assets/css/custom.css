@@ -13,3 +13,7 @@ ol.breadcrumb {
     margin: 0;
     background: none;
 }
+
+.img-200{
+    min-width: 200px;
+}
