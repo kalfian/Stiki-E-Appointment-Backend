@@ -1,5 +1,5 @@
 @extends('layouts.admin')
-@section('title', 'Detail Lecture')
+@section('title', 'Detail Activity')
 
 
 @section('css')
@@ -9,8 +9,8 @@
 
 @section('breadcrumb')
 <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">Dashboard</a></li>
-<li class="breadcrumb-item"><a href="{{ route('admin.lectures.index') }}">Lectures</a></li>
-<li class="breadcrumb-item active" aria-current="page">{{ $lecture->name }}</li>
+<li class="breadcrumb-item"><a href="{{ route('admin.activities.index') }}">Activities</a></li>
+<li class="breadcrumb-item active" aria-current="page">{{ $activity->name }}</li>
 @endsection
 
 @section('content')
@@ -19,43 +19,23 @@
     <div class="col-md-8">
         <div class="card">
             <div class="card-header card-with-button">
-                Detail Lecture
+                Detail Activity
+                <div class="list-button">
+                    <h5><span class="badge badge-{{ referenceStatus()::translateStatusColor($activity->status) }}">{{ referenceStatus()::translateStatus($activity->status) }}</span></h5>
+                </div>
             </div>
             <div class="card-body">
                 <div class="row">
                     <div class="col-md-12">
-                        <table class="table table-hover">
-                            <tr>
-                                <td>Identity</td>
-                                <td>:</td>
-                                <td>{{ $lecture->identity }}</td>
-                            </tr>
-                            <tr>
-                                <td>Name</td>
-                                <td>:</td>
-                                <td>{{ $lecture->name }}</td>
-                            </tr>
-                            <tr>
-                                <td>Email</td>
-                                <td>:</td>
-                                <td>{{ $lecture->email }}</td>
-                            </tr>
-                            <tr>
-                                <td>Phone Number</td>
-                                <td>:</td>
-                                <td>{{ $lecture->phone_number }}</td>
-                            </tr>
-                            <tr>
-                                <td>Gender</td>
-                                <td>:</td>
-                                <td>{{ translateGender($lecture->gender) }}</td>
-                            </tr>
-                            <tr>
-                                <td>Status</td>
-                                <td>:</td>
-                                <td>{{ referenceStatus()::translateStatus($lecture->active_status) }}</td>
-                            </tr>
-                        </table>
+                        <a class="btn btn-primary btn-sm float-right" href="{{ route('admin.students.edit', $activity->id) }}"><i class="fas fa-edit"></i> Edit Activity</a>
+                        <h3>{{ $activity->name }}</h3>
+
+                        <p><i class="fas fa-map-marker-alt"></i> {{ $activity->location }}</p>
+                        <p><i class="fas fa-clock"></i> {{ carbon_format($activity->start_date, 'd F Y') }} - {{ carbon_format($activity->end_date, 'd F Y') }}</p>
+                        @if($activity->banner)
+                        <img src="{{ $activity->banner->getUrl() }}" alt="{{ $activity->name }}" class="img-fluid">
+                        @endif
+                        {!! $activity->description !!}
                     </div>
                 </div>
             </div>
@@ -64,19 +44,46 @@
     <div class="col-md-4">
         <div class="card">
             <div class="card-header card-with-button">
-                Actions
+                Participants
             </div>
             <div class="card-body">
                 <div class="row">
                     <div class="col-md-12">
-                        <a href="{{ route('admin.lectures.edit', $lecture->id) }}" class='btn btn-sm btn-primary btn-block btn-edit-student'><i class='fas fa-edit'></i> Edit</a>
+                        @foreach($participants as $participant)
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="container-participant">
+                                    <div class="row">
+                                        <div class="col-md-1">
+                                            <i class="fas fa-user icon-big"></i>
+                                        </div>
+                                        <div class="col-md-11">
+                                            <div class="container-profile-user-list pl-5">
+                                                <p class="no-margin">
+                                                    @if($participant->is_lecturer)
+                                                    <span class="badge badge-info">Lecture</span>
+                                                    @else
+                                                    <span class="badge badge-success">Student</span>
+                                                    @endif
+                                                </p>
+                                                <p class="no-margin">{{$participant->user->identity}} - {{ $participant->user->name }}</p>
+                                                <p class="no-margin"><a href="mailto:{{ $participant->user->email }}">{{ $participant->user->email }}</a></p>
+                                                <p class="no-margin">{{ $participant->user->phone_number }}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    @if(!$participant->is_lecturer)
+                                    <a href="#" class="btn btn-primary btn-sm btn-block">View Logbook</a>
+                                    @endif
+                                    <hr>
+                                </div>
+                            </div>
+                        </div>
+                        @endforeach
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
-
-<!-- Modal -->
-@include('admin.lectures.modal')
 @endsection

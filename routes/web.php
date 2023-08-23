@@ -63,10 +63,10 @@ Route::prefix('/dashboard')->middleware(['auth'])->group(function () {
 
     Route::group(['prefix' => '/activity'], function () {
         Route::get('/', [AdminActivityController::class, 'index'])->name('admin.activities.index');
+        Route::get('/detail/{activity}', [AdminActivityController::class, 'show'])->name('admin.activities.show');
         Route::get('/data', [AdminActivityController::class, 'datatables'])->name('admin.activities.datatables');
         Route::get('/create', [AdminActivityController::class, 'create'])->name('admin.activities.create');
         Route::post('/create', [AdminActivityController::class, 'store'])->name('admin.activities.store');
-
     });
 
     Route::group(['prefix' => '/setting'], function () {

@@ -26,15 +26,15 @@ class ActivityController extends Controller
             $activities = Activity::with(['banner'])->withCount(['students']);
 
             return datatables()->of($activities)
-                ->addColumn('action', function ($lecture) {
+                ->addColumn('action', function ($activity) {
                     return "
-                    <a href='#' class='btn btn-sm btn-info btn-block'><i class='fas fa-info-circle'></i> Detail</a>
+                    <a href='".route('admin.activities.show', $activity->id)."' class='btn btn-sm btn-info btn-block'><i class='fas fa-info-circle'></i> Detail</a>
                     ";
                 })
-                ->addColumn('banner_image', function($lecture){
+                ->addColumn('banner_image', function($activity){
                     $banner = "-";
-                    if (!is_null($lecture->banner)) {
-                        $banner = "<a data-fancybox href='{$lecture->banner->getUrl()}'><img src='{$lecture->banner->getUrl('thumbnail')}' class='img-fluid img-200'></a>";
+                    if (!is_null($activity->banner)) {
+                        $banner = "<a data-fancybox href='{$activity->banner->getUrl()}'><img src='{$activity->banner->getUrl('thumbnail')}' class='img-fluid img-200'></a>";
                     }
 
                     return $banner;
@@ -43,6 +43,18 @@ class ActivityController extends Controller
                 ->rawColumns(['action', 'banner_image'])
                 ->make(true);
         }
+    }
+
+    public function show(Request $request, Activity $activity) {
+        // get participant order by is_lecturer true
+        $participants = ActivityParticipant::where('activity_id', '=', $activity->id)
+            ->orderBy('is_lecturer', 'desc')
+            ->get();
+
+        return view('admin.activities.show', [
+            'activity' => $activity,
+            'participants' => $participants,
+        ]);
     }
 
     public function create(Request $request) {

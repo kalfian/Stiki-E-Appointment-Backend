@@ -8,7 +8,7 @@
 
 @section('breadcrumb')
 <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">Dashboard</a></li>
-<li class="breadcrumb-item active" aria-current="page">Lectures</li>
+<li class="breadcrumb-item active" aria-current="page">Activities</li>
 @endsection
 
 @section('content')
@@ -83,11 +83,17 @@
                 },
                 {
                     data: 'start_date',
-                    name: 'start_date'
+                    name: 'start_date',
+                    render: function(data, type, row) {
+                        return moment(data).format('DD MMMM YYYY');
+                    }
                 },
                 {
                     data: 'end_date',
-                    name: 'end_date'
+                    name: 'end_date',
+                    render: function(data, type, row) {
+                        return moment(data).format('DD MMMM YYYY');
+                    }
                 },
                 {
                     data: 'students_count',

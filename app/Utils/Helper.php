@@ -94,3 +94,9 @@ if (!function_exists('translateGender')) {
         }
     }
 }
+
+if (!function_exists('carbon_format')) {
+    function carbon_format($date, $format = 'd M Y') {
+        return \Carbon\Carbon::parse($date)->format($format);
+    }
+}

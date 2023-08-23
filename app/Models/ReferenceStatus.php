@@ -54,4 +54,31 @@ class ReferenceStatus extends Model
         }
     }
 
+    public static function translateStatusColor($status) {
+        switch ($status) {
+            case self::STATUS_ACTIVE:
+                return 'success';
+            case self::STATUS_INACTIVE:
+                return 'warning';
+            case self::STATUS_BANNED:
+                return 'danger';
+            case self::STATUS_DRAFT:
+                return 'secondary';
+
+            case self::STATUS_IMPORT_ON_PROGRESS:
+                return 'info';
+            case self::STATUS_IMPORT_SUCCESS:
+                return 'success';
+            case self::STATUS_IMPORT_FAILED:
+                return 'danger';
+            case self::STATUS_IMPORT_DUPLICATE:
+                return 'warning';
+            case self::STATUS_IMPORT_INVALID:
+                return 'danger';
+
+            default:
+                return 'secondary';
+        }
+    }
+
 }

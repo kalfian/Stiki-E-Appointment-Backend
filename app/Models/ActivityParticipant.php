@@ -9,4 +9,12 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class ActivityParticipant extends Model
 {
     use HasFactory, SoftDeletes;
+
+    public function activity() {
+        return $this->belongsTo(Activity::class);
+    }
+
+    public function user() {
+        return $this->belongsTo(User::class);
+    }
 }

@@ -17,3 +17,11 @@ ol.breadcrumb {
 .img-200{
     min-width: 200px;
 }
+
+.no-margin {
+    margin: 0;
+}
+
+.icon-big {
+    font-size: 4rem;
+}

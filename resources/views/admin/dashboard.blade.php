@@ -19,7 +19,7 @@
                         <div class="col mr-2">
                             <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
                                 Total Lecture(s)</div>
-                            <div class="h5 mb-0 font-weight-bold text-gray-800">10</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{ $totalLecture }}</div>
                         </div>
                         <div class="col-auto">
                             <i class="fas fa-chalkboard-teacher fa-2x text-gray-300"></i>
@@ -31,13 +31,14 @@
         </div>
 
         <div class="col-md-4 mb-4">
+            <a href="{{ route('admin.students.index') }}">
             <div class="card border-left-info shadow h-100 py-2">
                 <div class="card-body">
                     <div class="row no-gutters align-items-center">
                         <div class="col mr-2">
                             <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
                                 Total Student(s)</div>
-                            <div class="h5 mb-0 font-weight-bold text-gray-800">42</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{ $totalStudent }}</div>
                         </div>
                         <div class="col-auto">
                             <i class="fas fa-users fa-2x text-gray-300"></i>
@@ -45,16 +46,18 @@
                     </div>
                 </div>
             </div>
+            </a>
         </div>
 
         <div class="col-md-4 mb-4">
+            <a href="{{ route('admin.activities.index') }}">
             <div class="card border-left-info shadow h-100 py-2">
                 <div class="card-body">
                     <div class="row no-gutters align-items-center">
                         <div class="col mr-2">
                             <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
                                 Total Activity(s)</div>
-                            <div class="h5 mb-0 font-weight-bold text-gray-800">42</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{ $totalActivity }}</div>
                         </div>
                         <div class="col-auto">
                             <i class="fas fa-star fa-2x text-gray-300"></i>
@@ -62,6 +65,7 @@
                     </div>
                 </div>
             </div>
+            </a>
         </div>
 
         {{-- <div class="col-md-4 mb-4">
