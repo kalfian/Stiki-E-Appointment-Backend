@@ -106,7 +106,7 @@ Superadmin for admin stiki
 - Activity (Role: Admin)
   - [x] Create Activity
   - [x] Get Detail Activity
-  - [ ] Edit Activity
+  - [x] Edit Activity
   - [ ] Delete Activity
   - [ ] Notification Activity Student
   - [ ] Notification Activity Lecture
