@@ -25,10 +25,11 @@ class AuthController extends Controller
 
     public function signIn(Request $request) {
         $credentials = $request->only('email', 'password');
+        $rememberMe = $request->input('remember_me');
 
         if (Auth::attemptWhen($credentials, function ($user) {
             return $user->hasRole(role()::ROLE_ADMIN) || $user->hasRole(role()::ROLE_SUPERADMIN);
-        })) {
+        }, $rememberMe)) {
             $request->session()->regenerate();
             return redirect()->route('admin.dashboard');
         }

@@ -67,6 +67,10 @@ Route::prefix('/dashboard')->middleware(['auth'])->group(function () {
         Route::get('/data', [AdminActivityController::class, 'datatables'])->name('admin.activities.datatables');
         Route::get('/create', [AdminActivityController::class, 'create'])->name('admin.activities.create');
         Route::post('/create', [AdminActivityController::class, 'store'])->name('admin.activities.store');
+        Route::get('/edit/{activity}', [AdminActivityController::class, 'edit'])->name('admin.activities.edit');
+        Route::post('/update/{activity}', [AdminActivityController::class, 'update'])->name('admin.activities.update');
+        Route::post('/update/{activity}/add_participant', [AdminActivityController::class, 'addParticipant'])->name('admin.activities.add_participant');
+        Route::post('/update/{activity}/remove_participant', [AdminActivityController::class, 'removeParticipant'])->name('admin.activities.remove_participant');
     });
 
     Route::group(['prefix' => '/setting'], function () {

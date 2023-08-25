@@ -127,4 +127,130 @@ class ActivityController extends Controller
             ]);
         }
     }
+
+    public function edit(Request $request, Activity $activity ) {
+        $lectures = User::join('model_has_roles', 'users.id', '=', 'model_has_roles.model_id')
+            ->join('roles', 'model_has_roles.role_id', '=', 'roles.id')
+            ->where('roles.name', '=', role()::ROLE_LECTURE)
+            ->select('users.*')
+            ->get();
+
+        $currentStudents = ActivityParticipant::with(['user'])
+            ->where('activity_id', '=', $activity->id)
+            ->where('is_lecturer', '=', false)
+            ->get();
+
+        $currentLecture = ActivityParticipant::where('activity_id', '=', $activity->id)
+            ->where('is_lecturer', '=', true)
+            ->first();
+
+        return view('admin.activities.edit', [
+            'activity' => $activity,
+            'lectures' => $lectures,
+            'currentStudents' => $currentStudents,
+            'currentLecture' => $currentLecture,
+        ]);
+    }
+
+    public function update(Request $request, Activity $activity) {
+        $request->validate([
+            'name' => ['required'],
+            'description' => ['required'],
+            'start_date' => ['required'],
+            'end_date' => ['required'],
+            'banner' => ['image', 'mimes:jpeg,png,jpg,gif,svg']
+        ]);
+
+        DB::beginTransaction();
+
+        try {
+            $activity->name = $request->name;
+            $activity->description = $request->description;
+            $activity->location = $request->location;
+            $activity->start_date = $request->start_date;
+            $activity->end_date = $request->end_date;
+            $activity->save();
+
+            if ($request->hasFile('banner')) {
+                $activity->clearMediaCollection('banner');
+                $activity->addMediaFromRequest('banner')->toMediaCollection('banner');
+            }
+
+            DB::commit();
+
+            return redirect()->route('admin.activities.view', $activity->id)->with([
+                'success' => 'Activity updated successfully',
+            ]);
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return redirect()->back()->withInput()->with([
+                'error' => $e->getMessage(),
+            ]);
+        }
+    }
+
+    public function addParticipant(Request $request, Activity $activity) {
+        $request->validate([
+            'lecture' => ['exists:users,id', 'nullable'],
+            'students' => ['array'],
+            'students.*' => ['exists:users,id'],
+        ]);
+
+        DB::beginTransaction();
+        try {
+            if (!is_null($request->lecture)) {
+                // Delete old lecture
+                ActivityParticipant::where('activity_id', '=', $activity->id)
+                    ->where('is_lecturer', '=', true)
+                    ->delete();
+
+                $participant = new ActivityParticipant();
+                $participant->activity_id = $activity->id;
+                $participant->user_id = $request->lecture;
+                $participant->is_lecturer = true;
+                $participant->save();
+            }
+
+            if($request->has('students')) {
+                foreach ($request->students as $student) {
+                    $participant = new ActivityParticipant();
+                    $participant->activity_id = $activity->id;
+                    $participant->user_id = $student;
+                    $participant->is_lecturer = false;
+                    $participant->save();
+                }
+            }
+
+            DB::commit();
+            return redirect()->route('admin.activities.edit', $activity->id)->with([
+                'success' => 'Participant added successfully',
+            ]);
+        } catch(\Exception $e) {
+            DB::rollBack();
+            return redirect()->back()->withInput()->with([
+                'error' => $e->getMessage(),
+            ]);
+        }
+    }
+
+    public function removeParticipant(Request $request, Activity $activity) {
+        $request->validate([
+            'participant' => ['exists:activity_participants,id'],
+        ]);
+
+        $participant = ActivityParticipant::find($request->participant);
+        $participant->delete();
+
+        return redirect()->route('admin.activities.update', $activity->id)->with([
+            'success' => 'Participant removed successfully',
+        ]);
+    }
+
+    public function delete(Request $request, Activity $activity) {
+        $activity->delete();
+
+        return redirect()->route('admin.activities.index')->with([
+            'success' => 'Activity deleted successfully',
+        ]);
+    }
 }

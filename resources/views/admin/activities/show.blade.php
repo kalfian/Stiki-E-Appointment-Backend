@@ -27,7 +27,7 @@
             <div class="card-body">
                 <div class="row">
                     <div class="col-md-12">
-                        <a class="btn btn-primary btn-sm float-right" href="{{ route('admin.students.edit', $activity->id) }}"><i class="fas fa-edit"></i> Edit Activity</a>
+                        <a class="btn btn-primary btn-sm float-right" href="{{ route('admin.activities.edit', $activity->id) }}"><i class="fas fa-edit"></i> Edit Activity</a>
                         <h3>{{ $activity->name }}</h3>
 
                         <p><i class="fas fa-map-marker-alt"></i> {{ $activity->location }}</p>

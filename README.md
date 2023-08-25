@@ -104,8 +104,8 @@ Superadmin for admin stiki
   - [x] Reset password lecture
   - [x] Import lecture from csv
 - Activity (Role: Admin)
-  - [ ] Create Activity
-  - [ ] Get Detail Activity
+  - [x] Create Activity
+  - [x] Get Detail Activity
   - [ ] Edit Activity
   - [ ] Delete Activity
   - [ ] Notification Activity Student

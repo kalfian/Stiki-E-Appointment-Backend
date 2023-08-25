@@ -145,6 +145,7 @@ class StudentController extends Controller
     }
 
     public function select2(Request $request) {
+
         $students = User::join('model_has_roles', 'users.id', '=', 'model_has_roles.model_id')
             ->join('roles', 'model_has_roles.role_id', '=', 'roles.id')
             ->where('roles.name', '=', role()::ROLE_STUDENT)
@@ -154,6 +155,14 @@ class StudentController extends Controller
             $students = $students->where(function($query) use ($request) {
                 $query->where('users.name', 'like', "%{$request->q}%")
                     ->orWhere('users.identity', 'like', "%{$request->q}%");
+            });
+        }
+
+        if ($request->has('activity_id')) {
+            $students = $students->whereNotIn('users.id', function($query) use ($request) {
+                $query->select('user_id')
+                    ->from('activity_participants')
+                    ->where('activity_id', '=', $request->activity_id);
             });
         }
 
