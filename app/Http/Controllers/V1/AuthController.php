@@ -22,13 +22,13 @@ class AuthController extends Controller
 
         if (!Auth::attemptWhen($credentials, function ($user) {
             return $user->hasRole(role()::ROLE_STUDENT) || $user->hasRole(role()::ROLE_LECTURE);
-        }, $rememberMe)) {
+        })) {
             return response()->json([
                 'message' => 'Unauthorized',
             ], 401);
         }
 
-        $token = Auth::user()->createToken('mobile_token')->accessToken;
+        $token = Auth::user()->createToken('mobile_token')->plainTextToken;
 
         return response()->json([
             'token' => $token,
