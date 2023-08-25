@@ -16,9 +16,7 @@ class StudentController extends Controller
 
     public function datatables(Request $request) {
         if ($request->ajax() || isDebug()) {
-            $students = User::join('model_has_roles', 'users.id', '=', 'model_has_roles.model_id')
-                ->join('roles', 'model_has_roles.role_id', '=', 'roles.id')
-                ->where('roles.name', '=', role()::ROLE_STUDENT)
+            $students = User::role(role()::ROLE_STUDENT)
                 ->select('users.*');
 
             return datatables()->of($students)
@@ -146,9 +144,7 @@ class StudentController extends Controller
 
     public function select2(Request $request) {
 
-        $students = User::join('model_has_roles', 'users.id', '=', 'model_has_roles.model_id')
-            ->join('roles', 'model_has_roles.role_id', '=', 'roles.id')
-            ->where('roles.name', '=', role()::ROLE_STUDENT)
+        $students = User::role(role()::ROLE_STUDENT)
             ->select('users.*');
 
         if ($request->has('q')) {

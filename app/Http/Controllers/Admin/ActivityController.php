@@ -58,9 +58,7 @@ class ActivityController extends Controller
     }
 
     public function create(Request $request) {
-        $lectures = User::join('model_has_roles', 'users.id', '=', 'model_has_roles.model_id')
-            ->join('roles', 'model_has_roles.role_id', '=', 'roles.id')
-            ->where('roles.name', '=', role()::ROLE_LECTURE)
+        $lectures = User::role(role()::ROLE_LECTURE)
             ->select('users.*')
             ->get();
 
@@ -129,9 +127,7 @@ class ActivityController extends Controller
     }
 
     public function edit(Request $request, Activity $activity ) {
-        $lectures = User::join('model_has_roles', 'users.id', '=', 'model_has_roles.model_id')
-            ->join('roles', 'model_has_roles.role_id', '=', 'roles.id')
-            ->where('roles.name', '=', role()::ROLE_LECTURE)
+        $lectures = User::role(role()::ROLE_LECTURE)
             ->select('users.*')
             ->get();
 

@@ -11,14 +11,10 @@ class DashboardController extends Controller
 {
     //
     public function index(Request $request) {
-        $totalLecture = User::join('model_has_roles', 'users.id', '=', 'model_has_roles.model_id')
-            ->join('roles', 'model_has_roles.role_id', '=', 'roles.id')
-            ->where('roles.name', '=', role()::ROLE_LECTURE)
+        $totalLecture = User::role(role()::ROLE_LECTURE)
             ->count();
 
-        $totalStudent = User::join('model_has_roles', 'users.id', '=', 'model_has_roles.model_id')
-            ->join('roles', 'model_has_roles.role_id', '=', 'roles.id')
-            ->where('roles.name', '=', role()::ROLE_STUDENT)
+        $totalStudent = User::role(role()::ROLE_STUDENT)
             ->count();
 
         // Total activity active by start date and end date
