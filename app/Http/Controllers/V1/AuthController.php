@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
+use App\Http\Resources\UserResource;
+
 class AuthController extends Controller
 {
     //
@@ -34,7 +36,7 @@ class AuthController extends Controller
             'message' => 'Login success',
             'data' => [
                 'token' => $token,
-                'user' => Auth::user(),
+                'user' => new UserResource(Auth::user()),
             ]
         ], 200);
     }
