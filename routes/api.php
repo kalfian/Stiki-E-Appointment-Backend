@@ -22,4 +22,12 @@ Route::group(['prefix' => 'v1', 'as' => 'api.v1.'], function() {
     Route::group(['prefix' => 'auth'], function() {
         Route::post('/', [V1AuthController::class, 'login'])->name('auth.login');
     });
+
+    Route::group(['middleware' => ['auth:sanctum']], function() {
+        Route::group(['prefix' => 'auth'], function() {
+            Route::post('/logout', [V1AuthController::class, 'logout'])->name('auth.logout');
+        });
+
+
+    });
 });

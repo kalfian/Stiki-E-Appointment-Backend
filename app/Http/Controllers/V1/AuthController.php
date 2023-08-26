@@ -31,8 +31,25 @@ class AuthController extends Controller
         $token = Auth::user()->createToken('mobile_token')->plainTextToken;
 
         return response()->json([
-            'token' => $token,
-            'user' => Auth::user(),
+            'message' => 'Login success',
+            'data' => [
+                'token' => $token,
+                'user' => Auth::user(),
+            ]
         ], 200);
+    }
+
+    public function logout(Request $request) {
+        try {
+            Auth::user()->currentAccessToken()->delete();
+
+            return response()->json([
+                'message' => 'Logout success',
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'Logout failed',
+            ], 500);
+        }
     }
 }
