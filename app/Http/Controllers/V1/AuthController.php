@@ -26,14 +26,21 @@ class AuthController extends Controller
             return $user->hasRole(role()::ROLE_STUDENT) || $user->hasRole(role()::ROLE_LECTURE);
         })) {
             return response()->json([
-                'message' => 'Unauthorized',
+                'message' => 'Email / Password Salah',
+            ], 401);
+        }
+
+        $user = Auth::user();
+        if ($user->active_status == referenceStatus()::STATUS_INACTIVE) {
+            return response()->json([
+                'message' => 'Akun anda belum aktif, silahkan hubungi admin',
             ], 401);
         }
 
         $token = Auth::user()->createToken('mobile_token')->plainTextToken;
 
         return response()->json([
-            'message' => 'Login success',
+            'message' => 'Login Berhasil',
             'data' => [
                 'token' => $token,
                 'user' => new UserResource(Auth::user()),
@@ -46,11 +53,11 @@ class AuthController extends Controller
             Auth::user()->currentAccessToken()->delete();
 
             return response()->json([
-                'message' => 'Logout success',
+                'message' => 'Logout Berhasil',
             ], 200);
         } catch (\Exception $e) {
             return response()->json([
-                'message' => 'Logout failed',
+                'message' => 'Logout Gagal',
             ], 500);
         }
     }
