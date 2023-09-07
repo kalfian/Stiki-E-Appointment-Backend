@@ -137,4 +137,37 @@ class LectureController extends Controller
             'success' => 'Lecture created successfully',
         ]);
     }
+
+    public function select2(Request $request) {
+
+        $lectures = User::role(role()::ROLE_LECTURE)
+            ->select('users.*');
+
+        if ($request->has('q')) {
+            $lectures = $lectures->where(function($query) use ($request) {
+                $query->where('users.name', 'like', "%{$request->q}%")
+                    ->orWhere('users.identity', 'like', "%{$request->q}%");
+            });
+        }
+
+        if ($request->has('activity_id')) {
+            $lectures = $lectures->whereNotIn('users.id', function($query) use ($request) {
+                $query->select('user_id')
+                    ->from('activity_participants')
+                    ->where('activity_id', '=', $request->activity_id);
+            });
+        }
+
+        $lectures = $lectures->get();
+
+        $data = [];
+        foreach ($lectures as $lecture) {
+            $data[] = [
+                'id' => $lecture->id,
+                'text' => "{$lecture->identity} - {$lecture->name}",
+            ];
+        }
+
+        return response()->json($data);
+    }
 }

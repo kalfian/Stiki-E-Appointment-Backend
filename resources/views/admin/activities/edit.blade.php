@@ -100,16 +100,31 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="form-group">
-                                <label>Lecture</label>
-                                <select name="lecture" class="form-control">
-                                    <option value="">Select Lecture</option>
-                                    @foreach($lectures as $lecture)
-                                    <option value="{{ $lecture->id }}" @if($lecture->id == $currentLecture->user_id) @selected(true) @endif>{{ $lecture->name }}</option>
-                                    @endforeach
+                                <label>Lectures</label>
+                                <select name="lectures[]" class="form-control" id="select-lectures" multiple>
                                 </select>
-                                @error('lecture')
+                                @error('lectures')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
+                            </div>
+                            <div class="row">
+                                {{-- User list with close button --}}
+                                @if(($activity->lectures->count() ?? 0) > 0)
+                                @foreach($activity->lectures as $lecture)
+                                <div class="col-md-12">
+                                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                        <p class="no-margin">
+                                            {{ $lecture->user->name }}<br/>
+                                            {{ $lecture->user->identity }}
+                                        </p>
+                                        <button type="button" data-participant-id="{{ $lecture->id }}" class="close btn-remove-participant" aria-label="Close">
+                                            <span aria-hidden="true">×</span>
+                                        </button>
+                                    </div>
+                                </div>
+                                @endforeach
+                                @endif
+                                {{-- End User list with close button --}}
                             </div>
                             <div class="form-group">
                                 <label for="">Students</label>
@@ -119,6 +134,7 @@
                             </div>
                             <div class="row">
                                 {{-- User list with close button --}}
+                                @if(($activity->students->count()) > 0)
                                 @foreach($activity->students as $student)
                                 <div class="col-md-12">
                                     <div class="alert alert-primary alert-dismissible fade show" role="alert">
@@ -132,6 +148,7 @@
                                     </div>
                                 </div>
                                 @endforeach
+                                @endif
                                 {{-- End User list with close button --}}
                             </div>
                             <div class="row">
@@ -242,6 +259,33 @@
             cache: true
         },
         placeholder: 'Search Student',
+        minimumInputLength: 3,
+    });
+</script>
+<script>
+    $('#select-lectures').select2({
+        ajax: {
+            url: "{{ route('admin.lectures.select2') }}",
+            dataType: 'json',
+            delay: 250,
+            data: function (params) {
+                var query = {
+                    search: params.term,
+                    type: 'public',
+                    activity_id: '{{ $activity->id }}'
+                }
+
+                // Query parameters will be ?search=[term]&type=public
+                return query;
+            },
+            processResults: function (data) {
+                return {
+                    results: data
+                };
+            },
+            cache: true
+        },
+        placeholder: 'Search Lectures',
         minimumInputLength: 3,
     });
 </script>

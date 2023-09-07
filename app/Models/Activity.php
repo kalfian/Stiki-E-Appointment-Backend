@@ -23,7 +23,7 @@ class Activity extends Model implements HasMedia
     public function registerMediaConversions(Media $media = null): void
     {
         $this->addMediaConversion('thumbnail')
-        ->fit(Manipulations::FIT_CROP, 200, 80)
+        ->fit(Manipulations::FIT_CROP, 200, 200)
         ->nonQueued();
     }
 
@@ -33,5 +33,9 @@ class Activity extends Model implements HasMedia
 
     public function students() {
         return $this->participants()->where('is_lecturer', '=', false);
+    }
+
+    public function lectures() {
+        return $this->participants()->where('is_lecturer', '=', true);
     }
 }

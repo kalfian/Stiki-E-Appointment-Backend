@@ -96,14 +96,10 @@
                 <div class="row">
                     <div class="col-md-12">
                         <div class="form-group">
-                            <label>Lecture</label>
-                            <select name="lecture" class="form-control">
-                                <option value="">Select Lecture</option>
-                                @foreach($lectures as $lecture)
-                                <option value="{{ $lecture->id }}">{{ $lecture->name }}</option>
-                                @endforeach
+                            <label>Lectures</label>
+                            <select name="lectures[]" class="form-control" id="select-lectures" multiple>
                             </select>
-                            @error('lecture')
+                            @error('lectures')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
@@ -112,6 +108,9 @@
                             <select name="students[]" class="form-control" id="select-students" multiple>
 
                             </select>
+                            @error('students')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
                         </div>
                     </div>
                 </div>
@@ -168,6 +167,22 @@
     $('#select-students').select2({
         ajax: {
             url: "{{ route('admin.students.select2') }}",
+            dataType: 'json',
+            delay: 250,
+            processResults: function (data) {
+                return {
+                    results: data
+                };
+            },
+            cache: true
+        },
+        placeholder: 'Search Student',
+        minimumInputLength: 3,
+    });
+
+    $('#select-lectures').select2({
+        ajax: {
+            url: "{{ route('admin.lectures.select2') }}",
             dataType: 'json',
             delay: 250,
             processResults: function (data) {

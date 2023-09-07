@@ -62,8 +62,19 @@ class ActivityController extends Controller
             ->select('users.*')
             ->get();
 
+        $currentStudents = ActivityParticipant::with(['user'])
+            ->where('activity_id', '=', $activity->id)
+            ->where('is_lecturer', '=', false)
+            ->get();
+
+        $currentLecture = ActivityParticipant::where('activity_id', '=', $activity->id)
+            ->where('is_lecturer', '=', true)
+            ->first();
+
         return view('admin.activities.create', [
             'lectures' => $lectures,
+            'currentStudents' => $currentStudents,
+            'currentLecture' => $currentLecture
         ]);
     }
 
@@ -75,6 +86,8 @@ class ActivityController extends Controller
             'end_date' => ['required'],
             'banner' => ['image', 'mimes:jpeg,png,jpg,gif,svg'],
             'lecture' => ['exists:users,id', 'nullable'],
+            'lectures' => ['array'],
+            'lectures.*' => ['exists:users,id'],
             'students' => ['array'],
             'students.*' => ['exists:users,id'],
         ]);
@@ -89,6 +102,7 @@ class ActivityController extends Controller
             $activity->location = $request->location;
             $activity->start_date = $request->start_date;
             $activity->end_date = $request->end_date;
+            $activity->status = $request->status;
             $activity->save();
 
             if ($request->hasFile('banner')) {
@@ -101,6 +115,16 @@ class ActivityController extends Controller
                 $participant->user_id = $request->lecture;
                 $participant->is_lecturer = true;
                 $participant->save();
+            }
+
+            if($request->has('lectures')) {
+                foreach ($request->lectures as $lecture) {
+                    $participant = new ActivityParticipant();
+                    $participant->activity_id = $activity->id;
+                    $participant->user_id = $lecture;
+                    $participant->is_lecturer = true;
+                    $participant->save();
+                }
             }
 
             if ($request->has('students')) {
@@ -165,6 +189,7 @@ class ActivityController extends Controller
             $activity->location = $request->location;
             $activity->start_date = $request->start_date;
             $activity->end_date = $request->end_date;
+            $activity->status = $request->status;
             $activity->save();
 
             if ($request->hasFile('banner')) {
@@ -174,7 +199,7 @@ class ActivityController extends Controller
 
             DB::commit();
 
-            return redirect()->route('admin.activities.view', $activity->id)->with([
+            return redirect()->route('admin.activities.show', $activity->id)->with([
                 'success' => 'Activity updated successfully',
             ]);
         } catch (\Exception $e) {
@@ -188,6 +213,8 @@ class ActivityController extends Controller
     public function addParticipant(Request $request, Activity $activity) {
         $request->validate([
             'lecture' => ['exists:users,id', 'nullable'],
+            'lectures' => ['array'],
+            'lectures.*' => ['exists:users,id'],
             'students' => ['array'],
             'students.*' => ['exists:users,id'],
         ]);
@@ -213,6 +240,16 @@ class ActivityController extends Controller
                     $participant->activity_id = $activity->id;
                     $participant->user_id = $student;
                     $participant->is_lecturer = false;
+                    $participant->save();
+                }
+            }
+
+            if($request->has('lectures')) {
+                foreach ($request->lectures as $lecture) {
+                    $participant = new ActivityParticipant();
+                    $participant->activity_id = $activity->id;
+                    $participant->user_id = $lecture;
+                    $participant->is_lecturer = true;
                     $participant->save();
                 }
             }
