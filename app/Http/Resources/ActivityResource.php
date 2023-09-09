@@ -23,6 +23,10 @@ class ActivityResource extends JsonResource
             $students = $this->students()->with(['user'])->get();
         }
 
+        if($request->load_lectures) {
+            $students = $this->lectures()->with(['user'])->get();
+        }
+
         // convert start date to indonesia format
         $startDate = Carbon::parse($this->start_date);
         $startDate = $startDate->locale('id')->isoFormat('D MMMM Y');
@@ -41,7 +45,8 @@ class ActivityResource extends JsonResource
             "location" => $this->location,
             "start_date" => $startDate,
             "end_date" => $endDate,
-            "students" => $students
+            "students" => $students,
+            "lectures" => $students
         ];
     }
 }

@@ -10,6 +10,7 @@ use App\Http\Resources\ActivityCollection;
 use App\Models\Activity;
 use App\Models\ActivityParticipant;
 use App\Models\ReferenceStatus;
+use Validator;
 
 class ActivityController extends Controller
 {

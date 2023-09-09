@@ -75,21 +75,40 @@ class AppointmentController extends Controller
             ], 401);
         }
 
-        $request->validate([
+        $rules = [
             'title' => 'required',
             'date' => ['required','date'],
             'description' => 'required',
-            'lecture_id' => ['required', 'exists:users,id'],
-            'lecture2_id' => ['nullable', 'exists:users,id']
-        ]);
+            'location' => 'required',
+            'lecture_ids' => ['array', 'min:1'],
+            'lecture_ids.*' => ['exists:users,id']
+        ];
+
+        $messages = [
+            'title.required' => 'Judul tidak boleh kosong',
+            'date.required' => 'Tanggal tidak boleh kosong',
+            'date.date' => 'Tanggal tidak valid',
+            'description.required' => 'Deskripsi tidak boleh kosong',
+            'location.required' => 'Lokasi tidak boleh kosong',
+            'lecture_ids.array' => 'Dosen tidak valid',
+            'lecture_ids.min' => 'Pilih minimal 1 dosen',
+            'lecture_ids.*.exists' => 'Dosen tidak valid',
+        ];
+
+        $this->validate($request, $rules, $messages);
 
         $appointment = new Appointment();
         $appointment->title = $request->title;
         $appointment->description = $request->description;
+        $appointment->location = $request->location;
         $appointment->date = $request->date;
         $appointment->student_id = $user->id;
-        $appointment->lecture_id = $request->lecture_id;
-        $appointment->lecture2_id = $request->lecture2_id;
+
+        // Check if lecture_ids is not empty
+        if (count($request->lecture_ids) > 0) {
+            $appointment->lecture_id = $request->lecture_ids[0];
+            $appointment->lecture2_id = $request->lecture_ids[1] ?? null;
+        }
         $appointment->activity_id = $activity->id;
         $appointment->save();
 

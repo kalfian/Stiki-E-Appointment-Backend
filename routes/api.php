@@ -8,7 +8,8 @@ use App\Http\Controllers\V1\{
 };
 
 use App\Http\Controllers\V1\{
-    ActivityController as V1ActivityController
+    ActivityController as V1ActivityController,
+    AppointmentController as V1AppointmentController
 };
 
 /*

@@ -18,10 +18,12 @@ return new class extends Migration
 
             $table->string('title');
             $table->string('description');
-            $table->dateTime('date');
+            $table->string('location');
+            $table->dateTime('start_date');
+            $table->dateTime('end_date');
 
             $table->foreignId('student_id')->constrained('users');
-            $table->foreignId('lecturer_id')->constrained('users');
+            $table->foreignId('lecture_id')->constrained('users');
             $table->foreignId('activity_id')->constrained('activities');
             $table->integer('status')->default(0);
 
