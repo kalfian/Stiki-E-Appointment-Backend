@@ -77,7 +77,8 @@ class AppointmentController extends Controller
 
         $rules = [
             'title' => 'required',
-            'date' => ['required','date'],
+            'start_date' => ['required','datetime'],
+            'end_date' => ['required','datetime'],
             'description' => 'required',
             'location' => 'required',
             'lecture_ids' => ['array', 'min:1'],
@@ -86,8 +87,10 @@ class AppointmentController extends Controller
 
         $messages = [
             'title.required' => 'Judul tidak boleh kosong',
-            'date.required' => 'Tanggal tidak boleh kosong',
-            'date.date' => 'Tanggal tidak valid',
+            'start_date.required' => 'Tanggal mulai tidak boleh kosong',
+            'start_date.datetime' => 'Tanggal mulai tidak valid',
+            'end_date.required' => 'Tanggal selesai tidak boleh kosong',
+            'end_date.datetime' => 'Tanggal selesai tidak valid',
             'description.required' => 'Deskripsi tidak boleh kosong',
             'location.required' => 'Lokasi tidak boleh kosong',
             'lecture_ids.array' => 'Dosen tidak valid',
@@ -101,7 +104,8 @@ class AppointmentController extends Controller
         $appointment->title = $request->title;
         $appointment->description = $request->description;
         $appointment->location = $request->location;
-        $appointment->date = $request->date;
+        $appointment->start_date = $request->start_date;
+        $appointment->end_date = $request->end_date;
         $appointment->student_id = $user->id;
 
         // Check if lecture_ids is not empty
