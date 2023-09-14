@@ -25,7 +25,7 @@ return new class extends Migration
             $table->foreignId('student_id')->constrained('users');
             $table->foreignId('lecture_id')->constrained('users');
             $table->foreignId('activity_id')->constrained('activities');
-            $table->integer('status')->default(0);
+            $table->integer('status')->default(status()::STATUS_APPOINTMENT_PENDING_ID);
 
             $table->timestamps();
         });

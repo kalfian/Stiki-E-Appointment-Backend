@@ -18,7 +18,7 @@ class ReferenceStatusSeeder extends Seeder
     {
         //
         $status = new ReferenceStatus();
-        $status->status = referenceStatus()::STATUS_ACTIVE;;
+        $status->status = referenceStatus()::STATUS_ACTIVE;
         $status->name = "Active";
         $status->save();
 

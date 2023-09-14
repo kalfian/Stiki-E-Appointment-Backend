@@ -27,6 +27,13 @@ class ReferenceStatus extends Model
     const STATUS_IMPORT_DUPLICATE = 103;
     const STATUS_IMPORT_INVALID = 104;
 
+
+    const STATUS_APPOINTMENT_PENDING_ID = 200;
+    const STATUS_APPOINTMENT_ACCEPTED_ID = 201;
+    const STATUS_APPOINTMENT_REJECTED_ID = 202;
+    const STATUS_APPOINTMENT_CANCELED_ID = 203;
+    const STATUS_APPOINTMENT_DONE_ID = 204;
+
     public static function translateStatus($status) {
         switch ($status) {
             case self::STATUS_ACTIVE:
@@ -48,6 +55,17 @@ class ReferenceStatus extends Model
                 return 'Import Duplicate';
             case self::STATUS_IMPORT_INVALID:
                 return 'Import Invalid';
+
+            case self::STATUS_APPOINTMENT_PENDING_ID:
+                return 'Menunggu Persetujuan';
+            case self::STATUS_APPOINTMENT_ACCEPTED_ID:
+                return 'Disetujui';
+            case self::STATUS_APPOINTMENT_REJECTED_ID:
+                return 'Ditolak';
+            case self::STATUS_APPOINTMENT_CANCELED_ID:
+                return 'Dibatalkan';
+            case self::STATUS_APPOINTMENT_DONE_ID:
+                return 'Selesai';
 
             default:
                 return 'Unknown';

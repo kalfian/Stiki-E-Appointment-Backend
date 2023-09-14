@@ -15,7 +15,7 @@ use App\Http\Resources\ActivityResource;
 class AppointmentController extends Controller
 {
     //
-    public function index() {
+    public function index(Request $request) {
         $user = $request->user();
         $limit = $request->limit ?? 10;
 
@@ -111,6 +111,7 @@ class AppointmentController extends Controller
         $appointment->start_date = $request->start_date;
         $appointment->end_date = $request->end_date;
         $appointment->student_id = $user->id;
+        $appointment->status = referenceStatus()::STATUS_APPOINTMENT_PENDING_ID;
 
         // Check if lecture_ids is not empty
         if (count($request->lecture_ids) > 0) {

@@ -7,6 +7,12 @@ if (! function_exists('referenceStatus')) {
     }
 }
 
+if (! function_exists('status')) {
+    function status() {
+        return referenceStatus();
+    }
+}
+
 if (! function_exists('male')) {
     function male() {
         return 0;
