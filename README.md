@@ -120,13 +120,13 @@ API
 
 - Student
   - Activity
-    - [ ] Get Activity
-    - [ ] Get Detail Activity
+    - [x] Get Activity
+    - [x] Get Detail Activity
     - [ ] Notification activity
   - Activity Appointment
-    - [ ] Get Appointment
-    - [ ] Get Detail Appointment
-    - [ ] Create appointment
+    - [x] Get Appointment
+    - [x] Get Detail Appointment
+    - [x] Create appointment
     - [ ] Notification appointment
   - Appointment Chat
     - [ ] Get Detail Chat
