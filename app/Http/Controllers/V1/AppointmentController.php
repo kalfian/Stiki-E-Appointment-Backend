@@ -77,8 +77,8 @@ class AppointmentController extends Controller
 
         $rules = [
             'title' => 'required',
-            'start_date' => ['required','datetime'],
-            'end_date' => ['required','datetime'],
+            'start_date' => ['required','date', 'before:end_date', 'date_format:Y-m-d H:i:s'],
+            'end_date' => ['required','date', 'after:start_date', 'date_format:Y-m-d H:i:s'],
             'description' => 'required',
             'location' => 'required',
             'lecture_ids' => ['array', 'min:1'],
@@ -88,9 +88,13 @@ class AppointmentController extends Controller
         $messages = [
             'title.required' => 'Judul tidak boleh kosong',
             'start_date.required' => 'Tanggal mulai tidak boleh kosong',
-            'start_date.datetime' => 'Tanggal mulai tidak valid',
+            'start_date.date' => 'Tanggal mulai tidak valid',
+            'start_date.before' => 'Tanggal mulai tidak boleh lebih besar dari tanggal selesai',
+            'start_date.date_format' => 'Format tanggal mulai tidak valid',
             'end_date.required' => 'Tanggal selesai tidak boleh kosong',
-            'end_date.datetime' => 'Tanggal selesai tidak valid',
+            'end_date.date' => 'Tanggal selesai tidak valid',
+            'end_date.after' => 'Tanggal selesai tidak boleh lebih kecil dari tanggal mulai',
+            'end_date.date_format' => 'Format tanggal selesai tidak valid',
             'description.required' => 'Deskripsi tidak boleh kosong',
             'location.required' => 'Lokasi tidak boleh kosong',
             'lecture_ids.array' => 'Dosen tidak valid',
