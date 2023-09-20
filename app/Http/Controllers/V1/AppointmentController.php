@@ -30,11 +30,19 @@ class AppointmentController extends Controller
 
         $appointments = $appointments->paginate($limit);
 
-        $collection = new AppointmentCollection($appointments);
+        $collection = AppointmentResource::collection($appointments);
+
+        $meta = [
+            'total' => $appointments->total(),
+            'current_page' => $appointments->currentPage(),
+            'per_page' => $appointments->perPage(),
+            'last_page' => $appointments->lastPage()
+        ];
 
         return response()->json([
             'message' => 'Berhasil menampilkan data',
             'data' => $collection,
+            'meta' => $meta,
         ], 200);
 
     }

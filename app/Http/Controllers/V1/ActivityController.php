@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
 use App\Http\Resources\ActivityResource;
-use App\Http\Resources\ActivityCollection;
 use App\Models\Activity;
 use App\Models\ActivityParticipant;
 use App\Models\ReferenceStatus;
@@ -38,7 +37,7 @@ class ActivityController extends Controller
 
         $activities = $activities->paginate($limit);
 
-        $collection = new ActivityCollection($activities);
+        $collection = ActivityResource::collection($activities);
 
         return response()->json([
             'message' => 'Berhasil menampilkan data',

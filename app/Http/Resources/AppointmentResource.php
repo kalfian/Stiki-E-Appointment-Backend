@@ -25,6 +25,7 @@ class AppointmentResource extends JsonResource
         $data = [
 
             'id' => $this->id,
+            "activity_id" => $this->activity_id,
             'title' => $this->title,
             'location' => $this->location,
             'status' => $this->status,

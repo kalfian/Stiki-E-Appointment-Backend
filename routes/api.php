@@ -40,10 +40,13 @@ Route::group(['prefix' => 'v1', 'as' => 'api.v1.'], function() {
                     Route::get('/{activity}', [V1ActivityController::class, 'show'])->name('activity.show');
 
                     Route::group(['prefix' => '{activity}/appointment'], function() {
-                        Route::get('/', [V1AppointmentController::class, 'index'])->name('appointment.index');
                         Route::post('/', [V1AppointmentController::class, 'store'])->name('appointment.store');
                         Route::get('/{appointment}', [V1AppointmentController::class, 'show'])->name('appointment.show');
                     });
+                });
+
+                Route::group(["prefix" => "appointment"], function() {
+                    Route::get('/', [V1AppointmentController::class, 'index'])->name('appointment.index');
                 });
             });
         });
