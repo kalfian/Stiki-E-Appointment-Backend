@@ -15,7 +15,7 @@ class ActivityLogbook extends Model
         'user_id',
         'lecture_comment',
         'problem',
-        'logbook_evidence',
+        'logbook_proof',
         'date',
         'description',
         'created_at',
