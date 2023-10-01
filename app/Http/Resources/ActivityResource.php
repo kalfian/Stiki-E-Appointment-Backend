@@ -18,13 +18,14 @@ class ActivityResource extends JsonResource
 
 
         $students = [];
+        $lectures = [];
         // get users if role lecture
         if($request->load_students) {
             $students = $this->students()->with(['user'])->get();
         }
 
         if($request->load_lectures) {
-            $students = $this->lectures()->with(['user'])->get();
+            $lectures = $this->lectures()->with(['user'])->get();
         }
 
         // convert start date to indonesia format
@@ -46,7 +47,7 @@ class ActivityResource extends JsonResource
             "start_date" => $startDate,
             "end_date" => $endDate,
             "students" => $students,
-            "lectures" => $students
+            "lectures" => $lectures
         ];
     }
 }

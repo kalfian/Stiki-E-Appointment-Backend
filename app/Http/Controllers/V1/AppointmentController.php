@@ -108,7 +108,7 @@ class AppointmentController extends Controller
             'end_date' => ['required','date', 'after:start_date', 'date_format:Y-m-d H:i:s'],
             'description' => 'required',
             'location' => 'required',
-            'lecture_ids' => ['array', 'min:1'],
+            'lecture_ids' => ['array', 'min:1', 'max:2'],
             'lecture_ids.*' => ['exists:users,id']
         ];
 
