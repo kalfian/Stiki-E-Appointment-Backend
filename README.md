@@ -132,8 +132,10 @@ API
     - [ ] Get Detail Chat
     - [ ] Publish Chat    
   - Logbook
-    - [ ] Get Logbook
-    - [ ] Create Logbook
+    - [x] Get Logbook
+    - [x] Get Logbook Detail
+    - [ ] Edit Logbook
+    - [x] Create Logbook
   - Other
     - [ ] Get Profile
     - [ ] Get Notifications
