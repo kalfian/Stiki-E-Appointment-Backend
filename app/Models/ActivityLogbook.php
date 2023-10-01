@@ -9,4 +9,16 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class ActivityLogbook extends Model
 {
     use HasFactory, SoftDeletes;
+
+    protected $fillable = [
+        'activity_id',
+        'user_id',
+        'lecture_comment',
+        'problem',
+        'logbook_evidence',
+        'date',
+        'description',
+        'created_at',
+        'updated_at',
+    ];
 }

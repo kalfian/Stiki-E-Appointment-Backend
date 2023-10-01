@@ -18,9 +18,11 @@ return new class extends Migration
 
             $table->foreignId('activity_id')->constrained('activities');
             $table->foreignId('user_id')->constrained('users');
-            $table->string('description');
+            $table->text('description');
+            $table->string('logbook_proof')->nullable();
+            $table->text('problem')->nullable();
+            $table->text('lecture_comment')->nullable();
             $table->dateTime('date');
-            $table->integer('status')->default(0);
 
             $table->softDeletes();
             $table->timestamps();
