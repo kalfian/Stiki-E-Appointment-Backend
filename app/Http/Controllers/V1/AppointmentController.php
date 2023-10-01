@@ -126,6 +126,7 @@ class AppointmentController extends Controller
             'location.required' => 'Lokasi tidak boleh kosong',
             'lecture_ids.array' => 'Dosen tidak valid',
             'lecture_ids.min' => 'Pilih minimal 1 dosen',
+            'lecture_ids.max' => 'Pilih maksimal 2 dosen',
             'lecture_ids.*.exists' => 'Dosen tidak valid',
         ];
 
