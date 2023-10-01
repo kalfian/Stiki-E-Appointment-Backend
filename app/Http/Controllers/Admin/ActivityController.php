@@ -62,19 +62,8 @@ class ActivityController extends Controller
             ->select('users.*')
             ->get();
 
-        $currentStudents = ActivityParticipant::with(['user'])
-            ->where('activity_id', '=', $activity->id)
-            ->where('is_lecturer', '=', false)
-            ->get();
-
-        $currentLecture = ActivityParticipant::where('activity_id', '=', $activity->id)
-            ->where('is_lecturer', '=', true)
-            ->first();
-
         return view('admin.activities.create', [
             'lectures' => $lectures,
-            'currentStudents' => $currentStudents,
-            'currentLecture' => $currentLecture
         ]);
     }
 

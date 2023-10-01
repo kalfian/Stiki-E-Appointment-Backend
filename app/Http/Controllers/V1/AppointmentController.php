@@ -11,6 +11,7 @@ use App\Models\Activity;
 use App\Http\Resources\AppointmentResource;
 use App\Http\Resources\AppointmentCollection;
 use App\Http\Resources\ActivityResource;
+use App\Http\Resources\UserResource;
 
 class AppointmentController extends Controller
 {
@@ -20,6 +21,10 @@ class AppointmentController extends Controller
         $limit = $request->limit ?? 10;
 
         $appointments = Appointment::orderBy('id', 'desc');
+        // Validate activity is still active
+        $appointments = $appointments->whereHas('activity', function($query) {
+            $query->where('status', referenceStatus()::STATUS_ACTIVE)->whereDate('start_date', '<=', date('Y-m-d'))->whereDate('end_date', '>=', date('Y-m-d'));
+        });
 
         // Check user role
         if ($user->hasRole(role()::ROLE_STUDENT)) {
@@ -47,8 +52,10 @@ class AppointmentController extends Controller
 
     }
 
-    public function show(Activity $activity, Appointment $appointment) {
+    public function show(Request $request, Appointment $appointment) {
         $user = $request->user();
+
+        $activity = $appointment->activity;
 
         // Validate if user is participant
         $isParticipant = $activity->participants->where('user_id', $user->id)->first();
@@ -58,16 +65,28 @@ class AppointmentController extends Controller
             ], 401);
         }
 
-        $appointment->load(['student', 'lecture']);
+        $appointment->load(['student', 'lecture', 'lecture2']);
 
         $appointmentResource = new AppointmentResource($appointment);
         $activityResource = new ActivityResource($activity);
+        $studentResource = new UserResource($appointment->student);
+        $lectureResource = new UserResource($appointment->lecture);
+        if($appointment->lecture2) {
+            $lecture2Resource = new UserResource($appointment->lecture2);
+        } else {
+            $lecture2Resource = null;
+        }
 
         return response()->json([
             'message' => 'Berhasil menampilkan data',
             'data' => [
                 'appointment' => $appointmentResource,
                 'activity' => $activityResource,
+                'participant' => [
+                    'student' => $studentResource,
+                    'lecture' => $lectureResource,
+                    'lecture2' => $lecture2Resource,
+                ]
             ],
         ], 200);
     }

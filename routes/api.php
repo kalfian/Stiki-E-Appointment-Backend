@@ -47,6 +47,7 @@ Route::group(['prefix' => 'v1', 'as' => 'api.v1.'], function() {
 
                 Route::group(["prefix" => "appointment"], function() {
                     Route::get('/', [V1AppointmentController::class, 'index'])->name('appointment.index');
+                    Route::get('/{appointment}', [V1AppointmentController::class, 'show'])->name('appointment.show');
                 });
             });
         });
