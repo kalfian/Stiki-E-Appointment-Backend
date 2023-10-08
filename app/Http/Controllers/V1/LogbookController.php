@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
 use App\Http\Resources\LogbookResource;
+
 use App\Models\Activity;
 use App\Models\ActivityLogbook;
 
@@ -106,5 +107,62 @@ class LogbookController extends Controller
             'message' => 'Berhasil menambahkan logbook',
             'data' => new LogbookResource($logbook),
         ], 201);
+    }
+
+    public function update(Activity $activity, ActivityLogbook $logbook, Request $request) {
+        $user = $request->user();
+
+        // Validate if user is participant
+        $isParticipant = $activity->participants->where('user_id', $user->id)->first();
+        if (!$isParticipant) {
+            return response()->json([
+                'message' => 'Anda tidak memiliki akses kegiatan ini',
+            ], 401);
+        }
+
+        $rules = [
+            'date' => ['required', 'date', 'date_format:Y-m-d H:i:s'],
+            'description' => ['required', 'string'],
+            'problem' => ['string', 'nullable'],
+            'logbook_proof' => ['string', 'nullable']
+        ];
+
+        // If user is lecture, add lecture_comment to rules
+        if ($user->hasRole('lecture')) {
+            $rules['lecture_comment'] = ['string', 'nullable'];
+        }
+
+        $messages = [
+            'date.required' => 'Tanggal tidak boleh kosong',
+            'date.date' => 'Tanggal tidak valid',
+            'description.required' => 'Deskripsi tidak boleh kosong',
+            'description.string' => 'Deskripsi tidak valid',
+            'problem.string' => 'Problem tidak valid',
+            'logbook_proof.string' => 'Bukti logbook tidak valid',
+        ];
+
+        // If user is lecture, add lecture_comment to messages
+        if ($user->hasRole('lecture')) {
+            $messages['lecture_comment.string'] = 'Komentar dosen tidak valid';
+        }
+
+        $this->validate($request, $rules, $messages);
+
+        $logbook->date = $request->date;
+        $logbook->description = $request->description;
+        $logbook->problem = $request->problem;
+        $logbook->logbook_proof = $request->logbook_proof;
+
+        // If user is lecture, add lecture_comment to logbook
+        if ($user->hasRole('lecture')) {
+            $logbook->lecture_comment = $request->lecture_comment;
+        }
+
+        $logbook->save();
+
+        return response()->json([
+            'message' => 'Berhasil mengubah logbook',
+            'data' => new LogbookResource($logbook),
+        ], 200);
     }
 }

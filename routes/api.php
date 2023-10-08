@@ -49,6 +49,7 @@ Route::group(['prefix' => 'v1', 'as' => 'api.v1.'], function() {
                     Route::get('/', [V1LogbookController::class, 'index'])->name('logbook.index');
                     Route::post('/', [V1LogbookController::class, 'store'])->name('logbook.store');
                     Route::get('/{logbook}', [V1LogbookController::class, 'show'])->name('logbook.show');
+                    Route::put('/{logbook}', [V1LogbookController::class, 'update'])->name('logbook.update');
                 });
             });
 
