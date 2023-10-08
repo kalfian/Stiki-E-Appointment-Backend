@@ -127,14 +127,16 @@ API
     - [x] Get Appointment
     - [x] Get Detail Appointment
     - [x] Create appointment
+    - [ ] Last 5 Nearest Appointment
     - [ ] Notification appointment
   - Appointment Chat
-    - [ ] Get Detail Chat
-    - [ ] Publish Chat    
+    - [X] Get Detail Chat
+    - [X] Publish Chat
+    - [ ] Notification Chat
   - Logbook
     - [x] Get Logbook
     - [x] Get Logbook Detail
-    - [ ] Edit Logbook
+    - [X] Edit Logbook
     - [x] Create Logbook
   - Other
     - [ ] Get Profile
