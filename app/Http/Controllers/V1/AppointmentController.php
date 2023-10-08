@@ -36,6 +36,7 @@ class AppointmentController extends Controller
             'order_by.in' => 'Kolom pengurutan tidak valid',
             'order_type.in' => 'Tipe pengurutan tidak valid',
             'limit.integer' => 'Limit harus berupa angka',
+            'status.in' => 'Status tidak valid'
         ];
 
         $this->validate($request, $rules, $messages);
