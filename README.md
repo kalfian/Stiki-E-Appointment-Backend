@@ -116,7 +116,7 @@ Superadmin for admin stiki
 API
 - Core
     - [ ] Core FCM
-    - [ ] Core realtime chat
+    - [x] Core realtime chat
 
 - Student
   - Activity

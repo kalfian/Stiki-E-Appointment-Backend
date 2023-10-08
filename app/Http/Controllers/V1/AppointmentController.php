@@ -13,10 +13,34 @@ use App\Http\Resources\AppointmentCollection;
 use App\Http\Resources\ActivityResource;
 use App\Http\Resources\UserResource;
 
+use App\Models\ReferenceStatus;
+
 class AppointmentController extends Controller
 {
     //
     public function index(Request $request) {
+
+        // Validate input request
+        $rules = [
+            'order_by' => 'in:id,title,description,location,start_date,end_date,student_id,lecture_id,lecture2_id,status',
+            'order_type' => 'in:asc,desc',
+            'limit' => 'integer',
+            'status' => 'in:'.ReferenceStatus::STATUS_APPOINTMENT_PENDING_ID.','.
+                        ReferenceStatus::STATUS_APPOINTMENT_ACCEPTED_ID.','.
+                        ReferenceStatus::STATUS_APPOINTMENT_REJECTED_ID . ','.
+                        ReferenceStatus::STATUS_APPOINTMENT_CANCELED_ID. ','.
+                        ReferenceStatus::STATUS_APPOINTMENT_DONE_ID
+        ];
+
+        $messages = [
+            'order_by.in' => 'Kolom pengurutan tidak valid',
+            'order_type.in' => 'Tipe pengurutan tidak valid',
+            'limit.integer' => 'Limit harus berupa angka',
+        ];
+
+        $this->validate($request, $rules, $messages);
+
+
         $user = $request->user();
         $limit = $request->limit ?? 10;
 
@@ -31,6 +55,15 @@ class AppointmentController extends Controller
             $appointments = $appointments->where('student_id', $user->id);
         } else if ($user->hasRole(role()::ROLE_LECTURE)) {
             $appointments = $appointments->where('lecture_id', $user->id);
+        }
+
+        if ($request->order_by) {
+            $orderType = $request->order_type ?? 'asc';
+            $appointments = $appointments->orderBy($request->order_by, $orderType);
+        }
+
+        if ($request->status) {
+            $appointments = $appointments->where('status', $request->status);
         }
 
         $appointments = $appointments->paginate($limit);
