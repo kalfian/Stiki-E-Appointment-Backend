@@ -29,14 +29,20 @@ class AppointmentController extends Controller
                         ReferenceStatus::STATUS_APPOINTMENT_ACCEPTED_ID.','.
                         ReferenceStatus::STATUS_APPOINTMENT_REJECTED_ID . ','.
                         ReferenceStatus::STATUS_APPOINTMENT_CANCELED_ID. ','.
-                        ReferenceStatus::STATUS_APPOINTMENT_DONE_ID
+                        ReferenceStatus::STATUS_APPOINTMENT_DONE_ID,
+            'start_date' => 'date',
+            'end_date' => 'date',
+            'filter_now' => ['boolean', 'nullable'],
         ];
 
         $messages = [
             'order_by.in' => 'Kolom pengurutan tidak valid',
             'order_type.in' => 'Tipe pengurutan tidak valid',
             'limit.integer' => 'Limit harus berupa angka',
-            'status.in' => 'Status tidak valid'
+            'status.in' => 'Status tidak valid',
+            'start_date.date' => 'Tanggal mulai tidak valid',
+            'end_date.date' => 'Tanggal selesai tidak valid',
+            'filter_now.boolean' => 'Filter sekarang tidak valid',
         ];
 
         $this->validate($request, $rules, $messages);
@@ -56,6 +62,18 @@ class AppointmentController extends Controller
             $appointments = $appointments->where('student_id', $user->id);
         } else if ($user->hasRole(role()::ROLE_LECTURE)) {
             $appointments = $appointments->where('lecture_id', $user->id);
+        }
+
+        if ($request->start_date) {
+            $appointments = $appointments->whereDate('start_date', '>=', $request->start_date);
+        }
+
+        if ($request->end_date) {
+            $appointments = $appointments->whereDate('end_date', '<=', $request->end_date);
+        }
+
+        if ($request->filter_now) {
+            $appointments = $appointments->whereDate('start_date', '<=', date('Y-m-d'))->whereDate('end_date', '>=', date('Y-m-d'));
         }
 
         if ($request->order_by) {
@@ -142,7 +160,7 @@ class AppointmentController extends Controller
             'end_date' => ['required','date', 'after:start_date', 'date_format:Y-m-d H:i:s'],
             'description' => 'required',
             'location' => 'required',
-            'lecture_ids' => ['array', 'min:1', 'max:2'],
+            'lecture_ids' => ['array', 'min:1', 'max:1'],
             'lecture_ids.*' => ['exists:users,id']
         ];
 
@@ -160,7 +178,7 @@ class AppointmentController extends Controller
             'location.required' => 'Lokasi tidak boleh kosong',
             'lecture_ids.array' => 'Dosen tidak valid',
             'lecture_ids.min' => 'Pilih minimal 1 dosen',
-            'lecture_ids.max' => 'Pilih maksimal 2 dosen',
+            'lecture_ids.max' => 'Pilih hanya 1 dosen',
             'lecture_ids.*.exists' => 'Dosen tidak valid',
         ];
 
