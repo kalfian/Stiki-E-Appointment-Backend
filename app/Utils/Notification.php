@@ -15,19 +15,13 @@ class Notification {
             ->withServiceAccount(__DIR__.$firebasePath);
     }
 
-    public function sendNotification($token, $title, $body)
+    public function sendNotification($token, $title, $body, $data = [])
     {
         try {
             $messaging = $this->firebase->createMessaging();
             $message = CloudMessage::new()
                 ->withTarget('token', $token)
-                // ->withNotification([
-                //     'title' => $title,
-                //     'body' => $body,
-                // ])
-                ->withData([
-                    'key' => 'value', // Add any additional data you want to send
-                ]);
+                ->withData($data);
 
             return $messaging->send($message);
         } catch (\Exception $e) {
@@ -39,7 +33,7 @@ class Notification {
 
     }
 
-    // $n = new App\Utils\Notification(); $id = "eh5YJVvCQwCeP-ggLFQ_B9:APA91bEYMAMBA9vmex91pC4STGa6vCG_O1DbuBWBcTNzVm11l_U3_kZZmPoJeIwaTv8BWroHA4fb7WCB8tg05Q3anJ4T4V9OGgTGTbfUDNcgXkXBQWiPSoe3CC43LEbsOrINyIAhU3gN"
+    // $n = new App\Utils\Notification(); $id = "fXcnYshwTHSXcMZoNYiPS2:APA91bHM_5F4qhw-1X7GcUdoePMIPAWjMHC6mgO4cSql3YnxFITyqbcDNHph8JE8Y2-Jvz3iX8LJcDtQkEaYPrQXZe0MiiWL6XuIlPJeAHH9XRQ4QqGBPTPtfVmIk2YaZoxo_ZtaYq3T"
     //
     // $d = $n->sendNotification($id, "testing", "tester2")
 }

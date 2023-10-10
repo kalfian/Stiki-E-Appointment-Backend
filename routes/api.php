@@ -10,7 +10,7 @@ use App\Http\Controllers\V1\{
 use App\Http\Controllers\V1\{
     ActivityController as V1ActivityController,
     AppointmentController as V1AppointmentController,
-    LogbookController as V1LogbookController
+    LogbookController as V1LogbookController,
 };
 
 /*
@@ -32,6 +32,10 @@ Route::group(['prefix' => 'v1', 'as' => 'api.v1.'], function() {
     Route::group(['middleware' => ['auth:sanctum']], function() {
         Route::group(['prefix' => 'auth'], function() {
             Route::post('/logout', [V1AuthController::class, 'logout'])->name('auth.logout');
+        });
+
+        Route::group(['prefix' => 'user'], function() {
+            Route::post('/fcm-token', [V1AuthController::class, 'attachFcmToken'])->name('user.attach-fcm-token');
         });
 
         // Role Students

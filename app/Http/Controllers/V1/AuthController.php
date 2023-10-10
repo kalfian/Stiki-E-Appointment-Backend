@@ -61,4 +61,26 @@ class AuthController extends Controller
             ], 500);
         }
     }
+
+    public function attachFcmToken(Request $request) {
+        // validate
+        $rules = [
+            'fcm_token' => 'required',
+        ];
+
+        $messages = [
+            'fcm_token.required' => 'Token tidak boleh kosong',
+        ];
+
+        $this->validate($request, $rules, $messages);
+
+        $user = Auth::user();
+        $user->fcm_token = $request->fcm_token;
+        $user->save();
+
+        return response()->json([
+            'message' => 'Berhasil menyimpan token',
+        ]);
+
+    }
 }
