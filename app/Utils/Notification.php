@@ -17,22 +17,29 @@ class Notification {
 
     public function sendNotification($token, $title, $body)
     {
-        $messaging = $this->firebase->createMessaging();
+        try {
+            $messaging = $this->firebase->createMessaging();
+            $message = CloudMessage::new()
+                ->withTarget('token', $token)
+                // ->withNotification([
+                //     'title' => $title,
+                //     'body' => $body,
+                // ])
+                ->withData([
+                    'key' => 'value', // Add any additional data you want to send
+                ]);
 
-        $message = CloudMessage::new()
-            ->withTarget('token', $token)
-            // ->withNotification([
-            //     'title' => $title,
-            //     'body' => $body,
-            // ])
-            ->withData([
-                'key' => 'value', // Add any additional data you want to send
-            ]);
+            return $messaging->send($message);
+        } catch (\Exception $e) {
+            return [
+                'message' => 'Gagal mengirim notifikasi',
+                'error' => $e->getMessage(),
+            ];
+        }
 
-        return $messaging->send($message);
     }
 
-    // $n = new App\Utils\Notification(); $id = "fK8pyUK2Rl2CX4yR14E_-F:APA91bHJKvj_ePWIKFs84cfCCSLUG6djbK9pAZCX8FdnUN1wIWcKaEM0A_LCq0boqsfvaEJ5P90IlG2DxSXXUrXjHC9q1i8xzJkoqI6E7XXzcNIlbDZxrPW9IHV6PBPt9EFXeZ1nVdQH"
+    // $n = new App\Utils\Notification(); $id = "eh5YJVvCQwCeP-ggLFQ_B9:APA91bEYMAMBA9vmex91pC4STGa6vCG_O1DbuBWBcTNzVm11l_U3_kZZmPoJeIwaTv8BWroHA4fb7WCB8tg05Q3anJ4T4V9OGgTGTbfUDNcgXkXBQWiPSoe3CC43LEbsOrINyIAhU3gN"
     //
     // $d = $n->sendNotification($id, "testing", "tester2")
 }
