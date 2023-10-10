@@ -21,15 +21,18 @@ class Notification {
 
         $message = CloudMessage::new()
             ->withTarget('token', $token)
-            ->withNotification([
-                'title' => $title,
-                'body' => $body,
-            ])
+            // ->withNotification([
+            //     'title' => $title,
+            //     'body' => $body,
+            // ])
             ->withData([
                 'key' => 'value', // Add any additional data you want to send
             ]);
 
-        $messaging->send($message);
+        return $messaging->send($message);
     }
 
+    // $n = new App\Utils\Notification(); $id = "fK8pyUK2Rl2CX4yR14E_-F:APA91bHJKvj_ePWIKFs84cfCCSLUG6djbK9pAZCX8FdnUN1wIWcKaEM0A_LCq0boqsfvaEJ5P90IlG2DxSXXUrXjHC9q1i8xzJkoqI6E7XXzcNIlbDZxrPW9IHV6PBPt9EFXeZ1nVdQH"
+    //
+    // $d = $n->sendNotification($id, "testing", "tester2")
 }
