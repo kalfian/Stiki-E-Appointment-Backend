@@ -147,25 +147,22 @@ API
     - [x] Create Logbook
   - Other
     - [ ] Get Profile
-    - [ ] Get Notifications
-    - [ ] Get Notification Detail
     
 - Lecture
   - Activity
-    - [ ] Get Activity
-    - [ ] Get Detail Activity
+    - [X] Get Activity
+    - [X] Get Detail Activity
     - [ ] Notification activity
   - Activity Appointment
-    - [ ] Get Appointment
-    - [ ] Get Detail Appointment
-    - [ ] Create appointment
+    - [X] Get Appointment
+    - [X] Get Detail Appointment
     - [ ] Notification appointment
   - Appointment Chat
-    - [ ] Get Detail Chat
-    - [ ] Publish Chat    
+    - [X] Get Detail Chat
+    - [X] Publish Chat    
   - Logbook
-    - [ ] Get Logbook
-    - [ ] Create Logbook
+    - [ ] Get Logbook Detail By Participant ID
+    - [ ] Update Logbook (comment)
   - Other
     - [ ] Get Profile
     - [ ] Get Notifications
