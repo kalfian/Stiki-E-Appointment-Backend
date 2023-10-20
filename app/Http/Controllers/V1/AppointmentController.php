@@ -74,7 +74,7 @@ class AppointmentController extends Controller
 
         if ($request->filter_now) {
             // Filter start_date today
-            $appointments = $appointments->whereDate('start_date', '<=', date('Y-m-d'));
+            $appointments = $appointments->whereDate('start_date', '<=', date('Y-m-d'))->whereDate('end_date', '>=', date('Y-m-d'));
         }
 
         if ($request->order_by) {

@@ -10,7 +10,7 @@ class Notification {
 
     public function __construct()
     {
-        $firebasePath = "/../../credentials/stiki-e-appointment-firebase-adminsdk-f0gpv-4d21a82ed7.json";
+        $firebasePath = "/../../credentials/".env("FIREBASE_FILE_NAME");
         $this->firebase = (new Factory)
             ->withServiceAccount(__DIR__.$firebasePath);
     }
@@ -33,7 +33,7 @@ class Notification {
 
     }
 
-    // $n = new App\Utils\Notification(); $id = "fXcnYshwTHSXcMZoNYiPS2:APA91bHM_5F4qhw-1X7GcUdoePMIPAWjMHC6mgO4cSql3YnxFITyqbcDNHph8JE8Y2-Jvz3iX8LJcDtQkEaYPrQXZe0MiiWL6XuIlPJeAHH9XRQ4QqGBPTPtfVmIk2YaZoxo_ZtaYq3T"
+    // $n = new App\Utils\Notification(); $id = "fXcnYshwTHSXcMZoNYiPS2:APA91bFuHO_BQ01GBUW_YX9A9ywhG5gqHwHAlvT9549pXghUu-NrK5c9fsjXSmcWHUoi6vCODHdZsFrIjtWBqUwK3Pg4aUdRC_UOwk2IlhgfDZtAiPJW8Q1jRnWuHPzgUSg097l0cknD"
     //
     // $d = $n->sendNotification($id, "testing", "tester2")
 }

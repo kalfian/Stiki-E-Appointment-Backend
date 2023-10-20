@@ -115,8 +115,15 @@ Superadmin for admin stiki
 
 API
 - Core
-    - [ ] Core FCM
+    - [x] Core FCM
     - [x] Core realtime chat
+    - [ ] Realtime FCM
+  
+- Notification
+  - [ ] Get Notification
+  - [ ] Get Notification Detail
+  - [ ] Read Notification
+  - [ ] Create Notification
 
 - Student
   - Activity
@@ -127,7 +134,7 @@ API
     - [x] Get Appointment
     - [x] Get Detail Appointment
     - [x] Create appointment
-    - [ ] Last 5 Nearest Appointment
+    - [x] Last 5 Nearest Appointment
     - [ ] Notification appointment
   - Appointment Chat
     - [X] Get Detail Chat

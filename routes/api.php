@@ -64,6 +64,27 @@ Route::group(['prefix' => 'v1', 'as' => 'api.v1.'], function() {
         });
 
         // Role lecture
+        Route::group(['middleware' => ['role:lecture'], 'prefix' => 'lecture', 'as' => 'lecture.'], function() {
+            Route::group(['prefix' => 'activity'], function() {
+                Route::get('/', [V1ActivityController::class, 'index'])->name('activity.index');
+                Route::get('/{activity}', [V1ActivityController::class, 'show'])->name('activity.show');
+
+                Route::group(['prefix' => '{activity}/appointment'], function() {
+                    Route::get('/{appointment}', [V1AppointmentController::class, 'show'])->name('appointment.show');
+                });
+
+                Route::group(['prefix' => '{activity}/logbook'], function() {
+                    Route::get('/', [V1LogbookController::class, 'index'])->name('logbook.index');
+                    Route::get('/{logbook}', [V1LogbookController::class, 'show'])->name('logbook.show');
+                    Route::put('/{logbook}', [V1LogbookController::class, 'update'])->name('logbook.update');
+                });
+            });
+
+            Route::group(["prefix" => "appointment"], function() {
+                Route::get('/', [V1AppointmentController::class, 'index'])->name('appointment.index');
+                Route::get('/{appointment}', [V1AppointmentController::class, 'show'])->name('appointment.show');
+            });
+        });
 
     });
 });
