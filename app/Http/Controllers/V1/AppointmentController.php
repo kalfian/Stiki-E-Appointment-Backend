@@ -207,4 +207,61 @@ class AppointmentController extends Controller
             'data' => new AppointmentResource($appointment),
         ], 201);
     }
+
+    public function updateStatus(Request $request, Appointment $appointment) {
+        $user = $request->user();
+
+        $activity = $appointment->activity;
+
+        // Validate if user is participant
+        $isParticipant = $activity->participants->where('user_id', $user->id)->first();
+        if (!$isParticipant) {
+            return response()->json([
+                'message' => 'Anda tidak memiliki akses kegiatan ini',
+            ], 401);
+        }
+
+        $rules = [
+            'status' => ['required', 'in:'.ReferenceStatus::STATUS_APPOINTMENT_ACCEPTED_ID.','.
+                        ReferenceStatus::STATUS_APPOINTMENT_REJECTED_ID . ','.
+                        ReferenceStatus::STATUS_APPOINTMENT_CANCELED_ID. ','.
+                        ReferenceStatus::STATUS_APPOINTMENT_DONE_ID]
+        ];
+
+        $messages = [
+            'status.required' => 'Status tidak boleh kosong',
+            'status.in' => 'Status tidak valid',
+        ];
+
+        $this->validate($request, $rules, $messages);
+
+        $availableUpdate = [];
+
+        if($request->status == ReferenceStatus::STATUS_APPOINTMENT_PENDING_ID) {
+            $availableUpdate = [
+                ReferenceStatus::STATUS_APPOINTMENT_ACCEPTED_ID,
+                ReferenceStatus::STATUS_APPOINTMENT_REJECTED_ID,
+                ReferenceStatus::STATUS_APPOINTMENT_CANCELED_ID
+            ];
+        }
+
+        if($request->status == ReferenceStatus::STATUS_APPOINTMENT_ACCEPTED_ID) {
+            $availableUpdate = [
+                ReferenceStatus::STATUS_APPOINTMENT_DONE_ID
+            ];
+        }
+
+        if (!in_array($appointment->status, $availableUpdate)) {
+            return response()->json([
+                'message' => 'Status tidak dapat diubah',
+            ], 400);
+        }
+
+        $appointment->status = $request->status;
+        $appointment->save();
+
+        return response()->json([
+            'message' => 'Berhasil mengubah status'
+        ], 200);
+    }
 }
