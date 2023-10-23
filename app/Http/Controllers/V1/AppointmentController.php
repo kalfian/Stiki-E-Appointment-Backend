@@ -13,6 +13,8 @@ use App\Http\Resources\AppointmentCollection;
 use App\Http\Resources\ActivityResource;
 use App\Http\Resources\UserResource;
 
+use Log;
+
 use App\Models\ReferenceStatus;
 
 class AppointmentController extends Controller
@@ -237,7 +239,7 @@ class AppointmentController extends Controller
 
         $availableUpdate = [];
 
-        if($request->status == ReferenceStatus::STATUS_APPOINTMENT_PENDING_ID) {
+        if($appointment->status == ReferenceStatus::STATUS_APPOINTMENT_PENDING_ID) {
             $availableUpdate = [
                 ReferenceStatus::STATUS_APPOINTMENT_ACCEPTED_ID,
                 ReferenceStatus::STATUS_APPOINTMENT_REJECTED_ID,
@@ -245,15 +247,17 @@ class AppointmentController extends Controller
             ];
         }
 
-        if($request->status == ReferenceStatus::STATUS_APPOINTMENT_ACCEPTED_ID) {
+        if($appointment->status == ReferenceStatus::STATUS_APPOINTMENT_ACCEPTED_ID) {
             $availableUpdate = [
                 ReferenceStatus::STATUS_APPOINTMENT_DONE_ID
             ];
         }
 
-        if (!in_array($appointment->status, $availableUpdate)) {
+        Log::info($availableUpdate);
+
+        if (!in_array($request->status, $availableUpdate)) {
             return response()->json([
-                'message' => 'Status tidak dapat diubah',
+                'message' => 'Status tidak dapat diubah ke status yang diminta',
             ], 400);
         }
 
