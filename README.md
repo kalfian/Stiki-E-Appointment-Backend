@@ -161,8 +161,8 @@ API
     - [X] Get Detail Chat
     - [X] Publish Chat    
   - Logbook
-    - [ ] Get Logbook Detail By Participant ID
-    - [ ] Update Logbook (comment)
+    - [X] Get Logbook Detail By Participant ID
+    - [X] Update Logbook (comment)
   - Other
     - [ ] Get Profile
     - [ ] Get Notifications
