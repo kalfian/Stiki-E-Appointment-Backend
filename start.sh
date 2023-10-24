@@ -3,7 +3,7 @@ if [ "$1" = "server" ]; then
     php artisan serve --host=127.0.0.1 --port=8000
 elif [ "$1" = "queue" ]; then
     # Start the queue worker
-    php artisan queue:work --daemon
+    php artisan queue:work
 else
     echo "Usage: $0 [server|queue]"
 fi
