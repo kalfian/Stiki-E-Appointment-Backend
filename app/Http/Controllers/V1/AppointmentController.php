@@ -253,8 +253,6 @@ class AppointmentController extends Controller
             ];
         }
 
-        Log::info($availableUpdate);
-
         if (!in_array($request->status, $availableUpdate)) {
             return response()->json([
                 'message' => 'Status tidak dapat diubah ke status yang diminta',
