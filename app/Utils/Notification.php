@@ -4,6 +4,10 @@ namespace App\Utils;
 use Kreait\Firebase\Factory;
 use Kreait\Firebase\Messaging\CloudMessage;
 use Spatie\DiscordAlerts\Facades\DiscordAlert;
+
+use App\Models\User;
+use App\Models\Notification as NotificationModel;
+
 use App\Utils\Alert;
 
 class Notification {
@@ -14,6 +18,32 @@ class Notification {
         $firebasePath = "/../../credentials/".env("FIREBASE_FILE_NAME");
         $this->firebase = (new Factory)
             ->withServiceAccount(__DIR__.$firebasePath);
+    }
+
+    public function send(Boolean $isRecorded, User $to, $title, $body, $payload = []) {
+        try {
+            $token = $to->fcm_token;
+            if (!is_null($token)) {
+                $this->sendNotification($token, $title, $body, $payload);
+            }
+
+            if ($isRecorded) {
+                $notification = new NotificationModel();
+                $notification->title = $title;
+                $notification->content = $body;
+                $notification->user_id = $to->id;
+                $extras = json_encode($payload);
+                $notification->extras = $extras;
+                $notification->save();
+            }
+
+            return true;
+
+        } catch (\Exception $e) {
+            Alert::instance()->sendError($e->getMessage());
+            return false;
+        }
+
     }
 
     public function sendNotification($token, $title, $body, $data = [])
@@ -34,8 +64,4 @@ class Notification {
         }
 
     }
-
-    // $n = new App\Utils\Notification(); $id = "fXcnYshwTHSXcMZoNYiPS2:APA91bFuHO_BQ01GBUW_YX9A9ywhG5gqHwHAlvT9549pXghUu-NrK5c9fsjXSmcWHUoi6vCODHdZsFrIjtWBqUwK3Pg4aUdRC_UOwk2IlhgfDZtAiPJW8Q1jRnWuHPzgUSg097l0cknD"
-    //
-    // $d = $n->sendNotification($id, "testing", "tester2")
 }
