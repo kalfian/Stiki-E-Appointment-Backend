@@ -3,7 +3,8 @@ namespace App\Utils;
 
 use Kreait\Firebase\Factory;
 use Kreait\Firebase\Messaging\CloudMessage;
-
+use Spatie\DiscordAlerts\Facades\DiscordAlert;
+use App\Utils\Alert;
 
 class Notification {
     protected $firebase;
@@ -25,6 +26,7 @@ class Notification {
 
             return $messaging->send($message);
         } catch (\Exception $e) {
+            Alert::instance()->sendError($e->getMessage());
             return [
                 'message' => 'Gagal mengirim notifikasi',
                 'error' => $e->getMessage(),

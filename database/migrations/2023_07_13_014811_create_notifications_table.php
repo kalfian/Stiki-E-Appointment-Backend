@@ -20,8 +20,8 @@ return new class extends Migration
             $table->text('content');
 
             // Notification for specific user
-            $table->foreignId('user_id')->nullable();
-            $table->string('type');
+            $table->foreignId('user_id');
+            $table->boolean('is_read')->default(false);
 
             $table->timestamps();
         });
