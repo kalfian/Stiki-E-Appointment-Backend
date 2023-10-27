@@ -22,7 +22,11 @@ class Notification {
 
     public function send(Boolean $isRecorded, User $to, $title, $body, $payload = []) {
         try {
-            $token = $to->fcm_token;
+            if(is_null($to)) {
+                return false;
+            }
+
+            $token = $to->fcm_token ?? null;
             if (!is_null($token)) {
                 $this->sendNotification($token, $title, $body, $payload);
             }

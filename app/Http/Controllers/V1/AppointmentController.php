@@ -13,6 +13,8 @@ use App\Http\Resources\AppointmentCollection;
 use App\Http\Resources\ActivityResource;
 use App\Http\Resources\UserResource;
 
+use App\Jobs\SendNotification;
+
 use Log;
 
 use App\Models\ReferenceStatus;
@@ -199,10 +201,19 @@ class AppointmentController extends Controller
         // Check if lecture_ids is not empty
         if (count($request->lecture_ids) > 0) {
             $appointment->lecture_id = $request->lecture_ids[0];
-            $appointment->lecture2_id = $request->lecture_ids[1] ?? null;
         }
         $appointment->activity_id = $activity->id;
         $appointment->save();
+
+        // Send Notification to lecture
+        $title = 'Anda mendapatkan permintaan bimbingan';
+        $body = 'Anda mendapatkan permintaan bimbingan dari ' . $user->name;
+        $payload = [
+            'appointment_id' => $appointment->id,
+            'activity_id' => $activity->id,
+            'type' => 'appointment',
+        ];
+        SendNotification::dispatch($appointment->lecture_id, true, $title, $body, $payload);
 
         return response()->json([
             'message' => 'Berhasil menambahkan data',
@@ -261,6 +272,16 @@ class AppointmentController extends Controller
 
         $appointment->status = $request->status;
         $appointment->save();
+
+        // Send Notification to student
+        $title = 'Status bimbingan telah diubah';
+        $body = 'Status bimbingan dengan judul '.$appointment->title.' telah diubah menjadi ' . referenceStatus()::getStatusName($request->status);
+        $payload = [
+            'appointment_id' => $appointment->id,
+            'activity_id' => $activity->id,
+            'type' => 'appointment',
+        ];
+        SendNotification::dispatch($appointment->student_id, true, $title, $body, $payload);
 
         return response()->json([
             'message' => 'Berhasil mengubah status'
