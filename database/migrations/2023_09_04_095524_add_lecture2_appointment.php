@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::table('appointments', function (Blueprint $table) {
-            $table->foreignId('lecture2_id')->constrained('users')->nullable();
+            $table->foreignId('lecture2_id')->nullable()->constrained('users');
             $table->softDeletes();
         });
     }
