@@ -25,7 +25,7 @@ class SendNotification implements ShouldQueue
      *
      * @return void
      */
-    public function __construct($userId, Boolean $isRecorded, $title, $body, $payload = [])
+    public function __construct($userId, $isRecorded, $title, $body, $payload = [])
     {
         //
         $this->user = User::find($userId);
