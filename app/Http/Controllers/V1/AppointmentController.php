@@ -201,6 +201,7 @@ class AppointmentController extends Controller
         // Check if lecture_ids is not empty
         if (count($request->lecture_ids) > 0) {
             $appointment->lecture_id = $request->lecture_ids[0];
+            $appointment->lecture2_id = null;
         }
         $appointment->activity_id = $activity->id;
         $appointment->save();
