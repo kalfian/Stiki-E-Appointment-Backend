@@ -276,7 +276,7 @@ class AppointmentController extends Controller
 
         // Send Notification to student
         $title = 'Status bimbingan telah diubah';
-        $body = 'Status bimbingan dengan judul '.$appointment->title.' telah diubah menjadi ' . referenceStatus()::getStatusName($request->status);
+        $body = 'Status bimbingan dengan judul '.$appointment->title.' telah diubah menjadi ' . referenceStatus()::translateStatus($request->status);
         $payload = [
             'appointment_id' => $appointment->id,
             'activity_id' => $activity->id,
