@@ -10,6 +10,8 @@ use App\Http\Resources\LogbookResource;
 use App\Models\Activity;
 use App\Models\ActivityLogbook;
 
+use App\Jobs\SendNotification;
+
 class LogbookController extends Controller
 {
     //
@@ -151,6 +153,18 @@ class LogbookController extends Controller
         $logbook->logbook_proof = $request->logbook_proof;
         $logbook->save();
 
+        // Lecture
+        $lecture = $activity->lectures->first();
+
+        // Send Notification to lecture
+        $title = 'Mahasiswa mengirimkan logbook baru';
+        $body = "Mahasiswa $user->name mengirimkan logbook baru pada kegiatan $activity->name";
+        $payload = [
+            'activity_id' => $activity->id,
+            'type' => 'logbook',
+        ];
+        SendNotification::dispatch($lecture->id, true, $title, $body, $payload);
+
         return response()->json([
             'message' => 'Berhasil menambahkan logbook',
             'data' => new LogbookResource($logbook),
@@ -201,10 +215,25 @@ class LogbookController extends Controller
         $logbook->problem = $request->problem;
         $logbook->logbook_proof = $request->logbook_proof;
 
+        // Send Notification to lecture or students
+        $target = $activity->lectures->first()->id;
+        $title = 'Mahasiswa mengirimkan logbook baru';
+        $body = "Mahasiswa $user->name mengirimkan logbook baru pada kegiatan $activity->name";
+        $payload = [
+            'activity_id' => $activity->id,
+            'type' => 'logbook',
+        ];
+
         // If user is lecture, add lecture_comment to logbook
         if ($user->hasRole('lecture')) {
+            $target = $logbook->user_id;
+            $title = 'Dosen mengirimkan komentar pada logbook';
+            $body = "Dosen $user->name mengirimkan komentar pada logbook mahasiswa $logbook->user->name pada kegiatan $activity->name";
             $logbook->lecture_comment = $request->lecture_comment;
+
         }
+
+        SendNotification::dispatch($target, true, $title, $body, $payload);
 
         $logbook->save();
 
