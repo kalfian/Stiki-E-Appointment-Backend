@@ -200,7 +200,7 @@ class LogbookController extends Controller
 
         $messages = [];
 
-        if($user->hasRoles('student')) {
+        if($user->hasRole('student')) {
             $messages = [
                 'date.required' => 'Tanggal tidak boleh kosong',
                 'date.date' => 'Tanggal tidak valid',
@@ -238,7 +238,7 @@ class LogbookController extends Controller
         if ($user->hasRole('lecture')) {
             $target = $logbook->user_id;
             $title = 'Dosen mengirimkan komentar pada logbook';
-            $body = "Dosen $user->name mengirimkan komentar pada logbook mahasiswa $logbook->user->name pada kegiatan $activity->name";
+            $body = "Dosen $user->name mengirimkan komentar pada logbook mahasiswa ".$logbook->user->name." pada kegiatan $activity->name";
             $logbook->lecture_comment = $request->lecture_comment;
 
         }
