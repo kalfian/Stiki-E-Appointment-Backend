@@ -182,26 +182,34 @@ class LogbookController extends Controller
             ], 401);
         }
 
-        $rules = [
-            'date' => ['required', 'date', 'date_format:Y-m-d H:i:s'],
-            'description' => ['required', 'string'],
-            'problem' => ['string', 'nullable'],
-            'logbook_proof' => ['string', 'nullable']
-        ];
+        $rules = [];
+
+        if($user->hasRole('student')) {
+            $rules = [
+                'date' => ['required', 'date', 'date_format:Y-m-d H:i:s'],
+                'description' => ['required', 'string'],
+                'problem' => ['string', 'nullable'],
+                'logbook_proof' => ['string', 'nullable']
+            ];
+        }
 
         // If user is lecture, add lecture_comment to rules
         if ($user->hasRole('lecture')) {
             $rules['lecture_comment'] = ['string', 'nullable'];
         }
 
-        $messages = [
-            'date.required' => 'Tanggal tidak boleh kosong',
-            'date.date' => 'Tanggal tidak valid',
-            'description.required' => 'Deskripsi tidak boleh kosong',
-            'description.string' => 'Deskripsi tidak valid',
-            'problem.string' => 'Problem tidak valid',
-            'logbook_proof.string' => 'Bukti logbook tidak valid',
-        ];
+        $messages = [];
+
+        if($user->hasRoles('student')) {
+            $messages = [
+                'date.required' => 'Tanggal tidak boleh kosong',
+                'date.date' => 'Tanggal tidak valid',
+                'description.required' => 'Deskripsi tidak boleh kosong',
+                'description.string' => 'Deskripsi tidak valid',
+                'problem.string' => 'Problem tidak valid',
+                'logbook_proof.string' => 'Bukti logbook tidak valid',
+            ];
+        }
 
         // If user is lecture, add lecture_comment to messages
         if ($user->hasRole('lecture')) {
@@ -210,10 +218,12 @@ class LogbookController extends Controller
 
         $this->validate($request, $rules, $messages);
 
-        $logbook->date = $request->date;
-        $logbook->description = $request->description;
-        $logbook->problem = $request->problem;
-        $logbook->logbook_proof = $request->logbook_proof;
+        if($user->hasRole('student')) {
+            $logbook->date = $request->date;
+            $logbook->description = $request->description;
+            $logbook->problem = $request->problem;
+            $logbook->logbook_proof = $request->logbook_proof;
+        }
 
         // Send Notification to lecture or students
         $target = $activity->lectures->first()->id;
