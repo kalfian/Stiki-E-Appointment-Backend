@@ -1,0 +1,26 @@
+{"message":"Call to undefined method Illuminate\\Database\\Eloquent\\Builder::preload()","context":{"exception":{"class":"BadMethodCallException","message":"Call to undefined method Illuminate\\Database\\Eloquent\\Builder::preload()","code":0,"file":"/Users/kalfian/Developments/www/Stiki-E-Appointment-Backend/vendor/laravel/framework/src/Illuminate/Support/Traits/ForwardsCalls.php:71"}},"level":400,"level_name":"ERROR","channel":"production","datetime":"2023-11-08T22:03:03.300542+07:00","extra":{}}
+
+   BadMethodCallException 
+
+  Call to undefined method Illuminate\Database\Eloquent\Builder::preload()
+
+  at Developments/www/Stiki-E-Appointment-Backend/vendor/laravel/framework/src/Illuminate/Support/Traits/ForwardsCalls.php:71
+     67▕      * @throws \BadMethodCallException
+     68▕      */
+     69▕     protected static function throwBadMethodCallException($method)
+     70▕     {
+  ➜  71▕         throw new BadMethodCallException(sprintf(
+     72▕             'Call to undefined method %s::%s()', static::class, $method
+     73▕         ));
+     74▕     }
+     75▕ }
+
+  i   Bad Method Call: Did you mean Illuminate\Database\Eloquent\Builder::create() ? 
+
+      [2m+2 vendor frames [22m
+  3   Developments/www/Stiki-E-Appointment-Backend/app/Console/Commands/SendNotificationReminder.php:40
+      Illuminate\Database\Eloquent\Builder::__call("preload")
+
+      [2m+13 vendor frames [22m
+  17  Developments/www/Stiki-E-Appointment-Backend/artisan:37
+      Illuminate\Foundation\Console\Kernel::handle(Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
